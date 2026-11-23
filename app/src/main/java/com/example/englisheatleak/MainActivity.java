@@ -338,6 +338,12 @@ public class MainActivity extends AppCompatActivity {
         updateFatStatusUI(fatLevel);
         updateScoreUI();
         isProcessingAnswer = false;
+
+        boolean canClick = currentState == GameState.PLAYING && characterController.canAnswer();
+        for (Button btn : choiceButtons) {
+            btn.setEnabled(canClick);
+        }
+
         startTimer(QUESTION_TIME_MS);
     }
 
@@ -371,13 +377,6 @@ public class MainActivity extends AppCompatActivity {
         if (isCorrect) {
             soundManager.playCorrectSound();
             characterController.onCorrectAnswer();
-            int points = answerChecker.getLastEarnedPoints();
-            characterController.getEffects().showCustomWord("+" + points + " PTS!", Color.parseColor("#FFE04A"));
-
-            int streak = answerChecker.getStreak();
-            if (streak > 1) {
-                characterController.getEffects().showCustomWord("COMBO x" + streak + " 🔥", Color.parseColor("#FF6B6B"));
-            }
 
             saveHighScore(answerChecker.getScore());
             updateScoreUI();
@@ -414,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvGameOverTitle.setText(title);
         tvGameOverReason.setText(reasonMessage);
-        String stats = "Final Score: " + score + " | Best: " + highScore +
+        String stats = "Words: " + score + " | Best: " + highScore +
                 "\nCorrect Answers: " + answerChecker.getCorrectCount() + "/" + answerChecker.getTotalAnswered();
         tvFinalStats.setText(stats);
         layoutGameOver.setVisibility(View.VISIBLE);
@@ -422,12 +421,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void restartGame() {
         currentState = GameState.PLAYING;
+        isProcessingAnswer = false;
         dataManager.clearSavedGameState();
         layoutStartScreen.setVisibility(View.GONE);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
         answerChecker.reset();
         characterController.reset();
+        randomQuestion.resetHistory();
         loadNextQuestion();
     }
 

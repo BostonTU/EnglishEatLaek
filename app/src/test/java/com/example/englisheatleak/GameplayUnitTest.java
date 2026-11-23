@@ -28,22 +28,22 @@ public class GameplayUnitTest {
         assertEquals(1, answerChecker.getStreak());
         assertEquals(1, answerChecker.getCorrectCount());
         assertEquals(1, answerChecker.getTotalAnswered());
-        // Base score 10 + Time bonus 10 = 20
-        assertEquals(20, answerChecker.getScore());
-        assertEquals(20, answerChecker.getLastEarnedPoints());
+        // score = จำนวนคำที่ตอบถูก (1 คำ = 1)
+        assertEquals(1, answerChecker.getScore());
+        assertEquals(1, answerChecker.getLastEarnedPoints());
     }
 
     @Test
-    public void testComboMultiplier() {
+    public void testComboDoesNotAddBonusScore() {
         RandomQuestion.Question q1 = randomQuestion.generateQuestion();
         RandomQuestion.Question q2 = randomQuestion.generateQuestion();
 
-        answerChecker.checkAnswer(q1, q1.getCorrectIndex(), 0); // 10 pts
+        answerChecker.checkAnswer(q1, q1.getCorrectIndex(), 0); // +1 คำ
         assertEquals(1, answerChecker.getStreak());
 
-        answerChecker.checkAnswer(q2, q2.getCorrectIndex(), 0); // 10 base + 3 combo = 13 pts
+        answerChecker.checkAnswer(q2, q2.getCorrectIndex(), 0); // +1 คำ (คอมโบไม่เพิ่มคะแนน)
         assertEquals(2, answerChecker.getStreak());
-        assertEquals(23, answerChecker.getScore());
+        assertEquals(2, answerChecker.getScore());
     }
 
     @Test

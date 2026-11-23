@@ -30,10 +30,8 @@ public class AnswerChecker {
         if (isCorrect) {
             correctCount++;
             streak++;
-            int baseScore = 10;
-            int comboBonus = (streak > 1 ? (streak - 1) * 3 : 0);
-            int timeBonus = (int) (timeRemainingMs / 1000) * 2;
-            lastEarnedPoints = baseScore + comboBonus + timeBonus;
+            // score = จำนวนคำที่ตอบถูก (ตอบถูก 1 คำ = +1) ไม่มีโบนัสคอมโบ/เวลาแล้ว
+            lastEarnedPoints = 1;
             score += lastEarnedPoints;
         } else {
             streak = 0;

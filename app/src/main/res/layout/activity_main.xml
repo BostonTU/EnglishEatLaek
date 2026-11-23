@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#F8F9FA"
+    android:background="@drawable/pixel_bg"
     tools:context=".MainActivity">
 
     <!-- แถบแสดงสถานะด้านบน: Score, Combo, High Score -->
@@ -18,42 +18,44 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:padding="8dp"
-        android:background="#FFFFFF"
-        android:elevation="2dp"
+        android:background="@drawable/pixel_panel"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:id="@+id/tvScore"
+            android:fontFamily="@font/press_start_2p"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Score: 0"
-            android:textColor="#212529"
-            android:textSize="16sp"
+            android:text="Words: 0"
+            android:textColor="@color/px_text"
+            android:textSize="10sp"
             android:textStyle="bold"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/tvCombo"
+            android:fontFamily="@font/press_start_2p"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Combo: 0 🔥"
-            android:textColor="#FF6B6B"
-            android:textSize="16sp"
+            android:textColor="#EF7D57"
+            android:textSize="10sp"
             android:textStyle="bold"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/tvHighScore"
+            android:fontFamily="@font/press_start_2p"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Best: 0 🏆"
-            android:textColor="#FFB800"
-            android:textSize="16sp"
+            android:textColor="@color/px_yellow"
+            android:textSize="10sp"
             android:textStyle="bold"
             android:gravity="center" />
     </LinearLayout>
@@ -73,21 +75,22 @@
         <ProgressBar
             android:id="@+id/progressBarTimer"
             style="?android:attr/progressBarStyleHorizontal"
+            android:progressDrawable="@drawable/pixel_progress"
             android:layout_width="0dp"
             android:layout_height="14dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:max="100"
-            android:progress="100"
-            android:progressDrawable="@android:drawable/progress_horizontal" />
+            android:progress="100" />
 
         <TextView
             android:id="@+id/tvTimer"
+            android:fontFamily="@font/press_start_2p"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:text="10s"
-            android:textColor="#E63946"
-            android:textSize="15sp"
+            android:textColor="#FF5C5C"
+            android:textSize="10sp"
             android:textStyle="bold"
             android:gravity="end" />
     </LinearLayout>
@@ -99,7 +102,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
-        android:background="#EAEAEA"
+        android:background="@drawable/pixel_panel"
         android:padding="14dp"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/layoutTimer"
@@ -108,21 +111,23 @@
 
         <TextView
             android:id="@+id/tvDifficulty"
+            android:fontFamily="@font/press_start_2p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LEVEL: EASY"
-            android:textColor="#4A4A4A"
-            android:textSize="12sp"
+            android:textColor="@color/px_text"
+            android:textSize="8sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvWord"
+            android:fontFamily="@font/press_start_2p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Vocabulary"
-            android:textColor="#1D3557"
-            android:textSize="28sp"
+            android:textColor="@color/px_text"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:gravity="center" />
     </LinearLayout>
@@ -146,18 +151,22 @@
         android:adjustViewBounds="true"
         app:layout_constraintTop_toBottomOf="@id/layoutWordCard"
         app:layout_constraintBottom_toTopOf="@id/tvFatStatus"
+        app:layout_constraintVertical_bias="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- สถานะตัวละคร -->
     <TextView
         android:id="@+id/tvFatStatus"
+        android:fontFamily="@font/tagbamonothai"
+        android:background="@drawable/pixel_panel"
+        android:padding="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="ร่างตัวละคร: ปกติ (Fat Lv.0)"
-        android:textColor="#6C757D"
-        android:textSize="13sp"
+        android:textColor="@color/px_text"
+        android:textSize="26sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@id/layoutChoices"
         app:layout_constraintStart_toStartOf="parent"
@@ -175,22 +184,24 @@
 
         <Button
             android:id="@+id/btnChoice1"
+            android:fontFamily="@font/tagbamonothai"
             android:layout_width="0dp"
             android:layout_height="72dp"
             android:layout_weight="1"
             android:layout_margin="6dp"
             android:text="ตัวเลือก 1"
-            android:textSize="16sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnChoice2"
+            android:fontFamily="@font/tagbamonothai"
             android:layout_width="0dp"
             android:layout_height="72dp"
             android:layout_weight="1"
             android:layout_margin="6dp"
             android:text="ตัวเลือก 2"
-            android:textSize="16sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -202,8 +213,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="20dp"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
+        android:background="@drawable/pixel_panel"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/layoutWordCard"
         app:layout_constraintBottom_toTopOf="@id/layoutChoices"
@@ -212,21 +222,23 @@
 
         <TextView
             android:id="@+id/tvGameOverTitle"
+            android:fontFamily="@font/press_start_2p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="GAME OVER!"
-            android:textColor="#D90429"
-            android:textSize="26sp"
+            android:textColor="#FF5C5C"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvGameOverReason"
+            android:fontFamily="@font/tagbamonothai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="คำตอบที่ถูกคือ..."
-            android:textColor="#2B2D42"
-            android:textSize="16sp"
+            android:textColor="@color/px_text"
+            android:textSize="32sp"
             android:gravity="center" />
 
         <TextView
@@ -234,8 +246,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Final Score: 0"
-            android:textColor="#8D99AE"
+            android:text="Words: 0"
+            android:textColor="@color/px_dim"
             android:textSize="14sp"
             android:gravity="center" />
 
@@ -247,23 +259,25 @@
 
             <Button
                 android:id="@+id/btnRestart"
+                android:fontFamily="@font/tagbamonothai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="เล่นอีกครั้ง"
-                android:backgroundTint="#2A9D8F"
+                android:backgroundTint="@color/px_green"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnGameOverMenu"
+                android:fontFamily="@font/tagbamonothai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="หน้าหลัก"
-                android:backgroundTint="#6C757D"
+                android:backgroundTint="#566C86"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="32sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
@@ -276,7 +290,6 @@
         android:orientation="vertical"
         android:gravity="center"
         android:background="#D9000000"
-        android:elevation="12dp"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -284,41 +297,45 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
+            android:fontFamily="@font/tagbamonothai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="พักเกมอยู่ (PAUSED) ⏸️"
             android:textColor="#FFFFFF"
-            android:textSize="26sp"
+            android:textSize="50sp"
             android:textStyle="bold" />
 
         <TextView
+            android:fontFamily="@font/tagbamonothai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="แตะปุ่มเพื่อเล่นเกมต่อจากเวลาที่เหลืออยู่"
-            android:textColor="#CCCCCC"
-            android:textSize="14sp" />
+            android:textColor="@color/px_dim"
+            android:textSize="32sp" />
 
         <Button
+            android:fontFamily="@font/tagbamonothai"
             android:id="@+id/btnResumeGame"
             android:layout_width="200dp"
             android:layout_height="56dp"
             android:layout_marginTop="24dp"
             android:text="เล่นเกมต่อ"
-            android:backgroundTint="#2A9D8F"
+            android:backgroundTint="@color/px_green"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <Button
+            android:fontFamily="@font/tagbamonothai"
             android:id="@+id/btnPauseQuitMenu"
             android:layout_width="200dp"
             android:layout_height="56dp"
             android:layout_marginTop="12dp"
             android:text="กลับหน้าหลัก"
-            android:backgroundTint="#E63946"
+            android:backgroundTint="@color/px_red"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -330,8 +347,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="24dp"
-        android:background="#F8F9FA"
-        android:elevation="16dp"
+        android:background="@color/px_bg"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -340,22 +356,24 @@
 
         <TextView
             android:id="@+id/tvAppTitle"
+            android:fontFamily="@font/press_start_2p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="English Eat Laek"
-            android:textColor="#1D3557"
-            android:textSize="32sp"
+            android:textColor="@color/px_text"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/tvAppSubtitle"
+            android:fontFamily="@font/tagbamonothai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="เกมทายคำศัพท์ภาษาอังกฤษ กินเพื่อเติบโต! 🍔"
-            android:textColor="#457B9D"
-            android:textSize="15sp"
+            android:textColor="@color/px_dim"
+            android:textSize="26sp"
             android:gravity="center" />
 
         <!-- ภาพตัวอย่างตัวละครหน้าแรก -->
@@ -370,45 +388,49 @@
 
         <TextView
             android:id="@+id/tvStartHighScore"
+            android:fontFamily="@font/tagbamonothai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="คะแนนสูงสุด: 0 🏆"
-            android:textColor="#E63946"
-            android:textSize="18sp"
+            android:textColor="#FF5C5C"
+            android:textSize="36sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnStartGame"
+            android:fontFamily="@font/tagbamonothai"
             android:layout_width="220dp"
             android:layout_height="56dp"
             android:layout_marginTop="20dp"
             android:text="เริ่มเล่นเกม (Start)"
-            android:backgroundTint="#2A9D8F"
+            android:backgroundTint="@color/px_green"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="36sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnSettings"
+            android:fontFamily="@font/tagbamonothai"
             android:layout_width="220dp"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:text="@string/btn_settings"
-            android:backgroundTint="#457B9D"
+            android:backgroundTint="@color/px_blue"
             android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textSize="36sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnResetHighScore"
+            android:fontFamily="@font/tagbamonothai"
             android:layout_width="220dp"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:text="ลบสถิติคะแนนสูงสุด"
-            android:backgroundTint="#E63946"
+            android:backgroundTint="@color/px_red"
             android:textColor="#FFFFFF"
-            android:textSize="14sp" />
+            android:textSize="36sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

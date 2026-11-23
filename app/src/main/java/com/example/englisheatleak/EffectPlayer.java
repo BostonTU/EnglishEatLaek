@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.Random;
 
 /**
- * เอฟเฟกต์ลอยเหนือตัวละคร (ข้อความ, ประกาย, ฝุ่น) สร้างด้วยโค้ดล้วน ไม่ต้องใช้ภาพ
+ * เอฟเฟกต์ลอยเหนือตัวละคร (ประกาย, ฝุ่น) สร้างด้วยโค้ดล้วน ไม่ต้องใช้ภาพ
  * View ทุกตัวถูกเพิ่มเข้า parent ของ characterView ชั่วคราวและลบทิ้งเองเมื่อเล่นจบ
  */
 public class EffectPlayer {
@@ -63,71 +63,6 @@ public class EffectPlayer {
             y = feet + (y - feet) * anchor.getScaleY() + anchor.getTranslationY();
         }
         return anchor.getTop() + y;
-    }
-
-    // ---------------------------------------------------------------- ข้อความลอย
-
-    /** ข้อความสั้น ๆ เด้งขึ้นเหนือหัวแล้วลอยหายไป (สุ่มคำ ไม่ซ้ำคำเดิมติดกัน) */
-    public void showWord() {
-        int i;
-        do {
-            i = random.nextInt(WORDS.length);
-        } while (i == lastWord);
-        lastWord = i;
-        showCustomWord(WORDS[i], WORD_COLORS[i]);
-    }
-
-    /** แสดงข้อความลอยแบบกำหนดคำและสีเอง */
-    public void showCustomWord(String text, int color) {
-        ViewGroup parent = parent();
-        if (parent == null || anchor.getWidth() == 0) return;
-
-        final TextView tv = new TextView(anchor.getContext());
-        tv.setText(text);
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        tv.setTypeface(Typeface.DEFAULT_BOLD);
-        tv.setTextColor(color);
-        tv.setShadowLayer(dp(3), 0f, dp(1), 0xFF000000);
-        tv.setAlpha(0f);
-        parent.addView(tv, new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        tv.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        float w = tv.getMeasuredWidth(), h = tv.getMeasuredHeight();
-        float margin = dp(8);
-        float x = Math.max(margin, Math.min(parent.getWidth() - w - margin, centerX() - w / 2f));
-        float y = pointY(HEAD_Y, true) - h - dp(6);
-
-        tv.setX(x);
-        tv.setY(y);
-        tv.setPivotX(w / 2f);
-        tv.setPivotY(h);
-        tv.setScaleX(0.4f);
-        tv.setScaleY(0.4f);
-
-        final ViewGroup p = parent;
-        final float rise = dp(55);
-        tv.animate().alpha(1f).scaleX(1f).scaleY(1f)
-                .setInterpolator(new OvershootInterpolator(3f))
-                .setDuration(260)
-                .withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        tv.animate().translationYBy(-rise).alpha(0f)
-                                .setInterpolator(new DecelerateInterpolator())
-                                .setStartDelay(450)
-                                .setDuration(750)
-                                .withEndAction(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        p.removeView(tv);
-                                    }
-                                })
-                                .start();
-                    }
-                })
-                .start();
     }
 
     // ---------------------------------------------------------------- ประกาย

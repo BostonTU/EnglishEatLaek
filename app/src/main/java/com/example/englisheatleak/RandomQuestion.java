@@ -2,12 +2,18 @@ package com.example.englisheatleak;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class RandomQuestion {
     private final List<Vocabulary> allVocabList;
     private final Random random;
+
+    // เก็บ id คำที่ถูกถามไปแล้วในรอบนี้ (กันข้อซ้ำ)
+    private final Set<Integer> usedIds = new HashSet<>();
+    private int lastTargetId = -1;
 
     public static class Question {
         private final Vocabulary targetVocab;
@@ -29,6 +35,12 @@ public class RandomQuestion {
     public RandomQuestion(List<Vocabulary> vocabList) {
         this.allVocabList = new ArrayList<>(vocabList);
         this.random = new Random();
+    }
+
+    /** เรียกตอนเริ่มเกมใหม่ เพื่อล้างประวัติคำที่เคยถามแล้ว */
+    public void resetHistory() {
+        usedIds.clear();
+        lastTargetId = -1;
     }
 
     public Question generateQuestion() {
@@ -59,8 +71,7 @@ public class RandomQuestion {
             pool = new ArrayList<>(allVocabList);
         }
 
-        int targetIdx = random.nextInt(pool.size());
-        Vocabulary targetVocab = pool.get(targetIdx);
+        Vocabulary targetVocab = pickUnusedWord(pool);
         String correctAnswer = targetVocab.getThaiMeaning();
 
         List<String> choices = new ArrayList<>();
@@ -81,5 +92,38 @@ public class RandomQuestion {
         int correctIndex = choices.indexOf(correctAnswer);
 
         return new Question(targetVocab, choices, correctIndex);
+    }
+
+    /**
+     * สุ่มคำที่ "ยังไม่เคยถาม" จาก pool
+     * ถ้าหมดแล้วค่อยล้างประวัติของ pool นั้น (แต่ไม่ให้ซ้ำกับข้อล่าสุดติดกัน)
+     */
+    private Vocabulary pickUnusedWord(List<Vocabulary> pool) {
+        List<Vocabulary> candidates = new ArrayList<>();
+        for (Vocabulary v : pool) {
+            if (!usedIds.contains(v.getId())) {
+                candidates.add(v);
+            }
+        }
+
+        if (candidates.isEmpty()) {
+            // ถามครบทุกคำใน pool แล้ว -> เริ่มรอบใหม่เฉพาะ pool นี้
+            for (Vocabulary v : pool) {
+                usedIds.remove(v.getId());
+            }
+            for (Vocabulary v : pool) {
+                if (v.getId() != lastTargetId) {
+                    candidates.add(v);
+                }
+            }
+            if (candidates.isEmpty()) {
+                candidates.addAll(pool);
+            }
+        }
+
+        Vocabulary picked = candidates.get(random.nextInt(candidates.size()));
+        usedIds.add(picked.getId());
+        lastTargetId = picked.getId();
+        return picked;
     }
 }

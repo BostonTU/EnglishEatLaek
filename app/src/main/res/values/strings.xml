@@ -3,10 +3,10 @@
     <string name="app_subtitle">เกมทายคำศัพท์ภาษาอังกฤษ กินเพื่อเติบโต! 🍔</string>
 
     <!-- Score & Status -->
-    <string name="score_format">Score: %1$d</string>
+    <string name="score_format">Words: %1$d</string>
     <string name="combo_format">Combo: %1$d 🔥</string>
     <string name="best_score_format">Best: %1$d 🏆</string>
-    <string name="start_best_score_format">คะแนนสูงสุด: %1$d 🏆</string>
+    <string name="start_best_score_format">ตอบถูกมากสุด: %1$d คำ 🏆</string>
     <string name="level_format">LEVEL: %1$s</string>
 
     <!-- Buttons -->
