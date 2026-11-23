@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -26,33 +29,55 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_HIGH_SCORE = "high_score";
     private static final long QUESTION_TIME_MS = 10000; // 10 วินาทีต่อคำถาม
 
+    private enum GameState {
+        START_MENU,
+        PLAYING,
+        PAUSED,
+        GAME_OVER
+    }
+
+    private GameState currentState = GameState.START_MENU;
+
     private CharacterController characterController;
     private RandomQuestion randomQuestion;
     private AnswerChecker answerChecker;
     private RandomQuestion.Question currentQuestion;
 
+    // Main Game Views
     private TextView tvScore;
     private TextView tvCombo;
     private TextView tvHighScore;
-
     private ProgressBar progressBarTimer;
     private TextView tvTimer;
-
     private TextView tvDifficulty;
     private TextView tvWord;
     private TextView tvFatStatus;
+    private Button[] choiceButtons;
 
+    // Start Screen Views
+    private LinearLayout layoutStartScreen;
+    private TextView tvStartHighScore;
+    private Button btnStartGame;
+    private Button btnResetHighScore;
+
+    // Pause Overlay Views
+    private LinearLayout layoutPauseOverlay;
+    private Button btnResumeGame;
+    private Button btnPauseQuitMenu;
+
+    // Game Over Views
     private LinearLayout layoutGameOver;
     private TextView tvGameOverTitle;
     private TextView tvGameOverReason;
     private TextView tvFinalStats;
     private Button btnRestart;
-    private Button[] choiceButtons;
+    private Button btnGameOverMenu;
 
     private CountDownTimer countDownTimer;
     private long remainingTimeMs = QUESTION_TIME_MS;
     private int highScore = 0;
-    private boolean isGameOver = false;
+    private boolean isProcessingAnswer = false;
+    private long lastBackPressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,27 +88,39 @@ public class MainActivity extends AppCompatActivity {
         ImageView characterView = findViewById(R.id.characterView);
         characterController = new CharacterController(characterView, findViewById(R.id.shadowView));
 
+        // Game Header & Content Views
         tvScore = findViewById(R.id.tvScore);
         tvCombo = findViewById(R.id.tvCombo);
         tvHighScore = findViewById(R.id.tvHighScore);
-
         progressBarTimer = findViewById(R.id.progressBarTimer);
         tvTimer = findViewById(R.id.tvTimer);
-
         tvDifficulty = findViewById(R.id.tvDifficulty);
         tvWord = findViewById(R.id.tvWord);
         tvFatStatus = findViewById(R.id.tvFatStatus);
-
-        layoutGameOver = findViewById(R.id.layoutGameOver);
-        tvGameOverTitle = findViewById(R.id.tvGameOverTitle);
-        tvGameOverReason = findViewById(R.id.tvGameOverReason);
-        tvFinalStats = findViewById(R.id.tvFinalStats);
-        btnRestart = findViewById(R.id.btnRestart);
 
         choiceButtons = new Button[]{
                 findViewById(R.id.btnChoice1),
                 findViewById(R.id.btnChoice2)
         };
+
+        // Start Screen Views
+        layoutStartScreen = findViewById(R.id.layoutStartScreen);
+        tvStartHighScore = findViewById(R.id.tvStartHighScore);
+        btnStartGame = findViewById(R.id.btnStartGame);
+        btnResetHighScore = findViewById(R.id.btnResetHighScore);
+
+        // Pause Overlay Views
+        layoutPauseOverlay = findViewById(R.id.layoutPauseOverlay);
+        btnResumeGame = findViewById(R.id.btnResumeGame);
+        btnPauseQuitMenu = findViewById(R.id.btnPauseQuitMenu);
+
+        // Game Over Views
+        layoutGameOver = findViewById(R.id.layoutGameOver);
+        tvGameOverTitle = findViewById(R.id.tvGameOverTitle);
+        tvGameOverReason = findViewById(R.id.tvGameOverReason);
+        tvFinalStats = findViewById(R.id.tvFinalStats);
+        btnRestart = findViewById(R.id.btnRestart);
+        btnGameOverMenu = findViewById(R.id.btnGameOverMenu);
 
         randomQuestion = new RandomQuestion(VocabularyDatabase.getAllWords());
         answerChecker = new AnswerChecker();
@@ -91,8 +128,9 @@ public class MainActivity extends AppCompatActivity {
         loadHighScore();
 
         characterController.setInputStateListener(enabled -> {
+            boolean canClick = enabled && currentState == GameState.PLAYING && !isProcessingAnswer;
             for (Button btn : choiceButtons) {
-                btn.setEnabled(enabled && !isGameOver);
+                btn.setEnabled(canClick);
             }
         });
 
@@ -101,9 +139,17 @@ public class MainActivity extends AppCompatActivity {
             choiceButtons[i].setOnClickListener(v -> handleAnswer(choiceIndex));
         }
 
-        btnRestart.setOnClickListener(v -> restartGame());
+        btnStartGame.setOnClickListener(v -> startGame());
+        btnResetHighScore.setOnClickListener(v -> showResetHighScoreConfirmationDialog());
 
-        restartGame();
+        btnResumeGame.setOnClickListener(v -> resumeGame());
+        btnPauseQuitMenu.setOnClickListener(v -> showStartScreen());
+
+        btnRestart.setOnClickListener(v -> restartGame());
+        btnGameOverMenu.setOnClickListener(v -> showStartScreen());
+
+        setupBackNavigation();
+        showStartScreen();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -112,10 +158,35 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setupBackNavigation() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (currentState == GameState.START_MENU) {
+                    if (System.currentTimeMillis() - lastBackPressedTime < 2000) {
+                        finish();
+                    } else {
+                        lastBackPressedTime = System.currentTimeMillis();
+                        Toast.makeText(MainActivity.this, getString(R.string.toast_double_back_exit), Toast.LENGTH_SHORT).show();
+                    }
+                } else if (currentState == GameState.PLAYING) {
+                    pauseGame();
+                } else if (currentState == GameState.PAUSED || currentState == GameState.GAME_OVER) {
+                    showStartScreen();
+                }
+            }
+        });
+    }
+
     private void loadHighScore() {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         highScore = prefs.getInt(KEY_HIGH_SCORE, 0);
-        tvHighScore.setText("Best: " + highScore + " 🏆");
+        updateHighScoreDisplay();
+    }
+
+    private void updateHighScoreDisplay() {
+        tvHighScore.setText(getString(R.string.best_score_format, highScore));
+        tvStartHighScore.setText(getString(R.string.start_best_score_format, highScore));
     }
 
     private void saveHighScore(int score) {
@@ -123,16 +194,47 @@ public class MainActivity extends AppCompatActivity {
             highScore = score;
             SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             prefs.edit().putInt(KEY_HIGH_SCORE, highScore).apply();
-            tvHighScore.setText("Best: " + highScore + " 🏆");
+            updateHighScoreDisplay();
         }
     }
 
-    private void startTimer() {
-        stopTimer();
-        remainingTimeMs = QUESTION_TIME_MS;
-        progressBarTimer.setProgress(100);
+    private void showResetHighScoreConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.confirm_reset_title))
+                .setMessage(getString(R.string.confirm_reset_message))
+                .setPositiveButton(getString(R.string.confirm_yes), (dialog, which) -> {
+                    SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                    prefs.edit().remove(KEY_HIGH_SCORE).apply();
+                    highScore = 0;
+                    updateHighScoreDisplay();
+                    Toast.makeText(MainActivity.this, getString(R.string.toast_reset_success), Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(getString(R.string.confirm_cancel), null)
+                .show();
+    }
 
-        countDownTimer = new CountDownTimer(QUESTION_TIME_MS, 50) {
+    private void showStartScreen() {
+        stopTimer();
+        currentState = GameState.START_MENU;
+        isProcessingAnswer = false;
+        layoutStartScreen.setVisibility(View.VISIBLE);
+        layoutPauseOverlay.setVisibility(View.GONE);
+        layoutGameOver.setVisibility(View.GONE);
+        updateHighScoreDisplay();
+    }
+
+    private void startGame() {
+        layoutStartScreen.setVisibility(View.GONE);
+        layoutPauseOverlay.setVisibility(View.GONE);
+        layoutGameOver.setVisibility(View.GONE);
+        restartGame();
+    }
+
+    private void startTimer(long durationMs) {
+        stopTimer();
+        remainingTimeMs = durationMs;
+
+        countDownTimer = new CountDownTimer(durationMs, 50) {
             @Override
             public void onTick(long millisUntilFinished) {
                 remainingTimeMs = millisUntilFinished;
@@ -159,11 +261,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void pauseGame() {
+        if (currentState == GameState.PLAYING) {
+            stopTimer();
+            currentState = GameState.PAUSED;
+            layoutPauseOverlay.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void resumeGame() {
+        if (currentState == GameState.PAUSED) {
+            layoutPauseOverlay.setVisibility(View.GONE);
+            currentState = GameState.PLAYING;
+            isProcessingAnswer = false;
+            startTimer(remainingTimeMs > 0 ? remainingTimeMs : QUESTION_TIME_MS);
+        }
+    }
+
     private void loadNextQuestion() {
         int fatLevel = characterController.getFatLevel();
         currentQuestion = randomQuestion.generateQuestionByFatLevel(fatLevel);
 
-        tvDifficulty.setText("LEVEL: " + currentQuestion.getDifficulty().toUpperCase());
+        tvDifficulty.setText(getString(R.string.level_format, currentQuestion.getDifficulty().toUpperCase()));
         tvWord.setText(currentQuestion.getTargetVocab().getEnglishWord());
 
         List<String> choices = currentQuestion.getChoices();
@@ -173,27 +292,35 @@ public class MainActivity extends AppCompatActivity {
 
         updateFatStatusUI(fatLevel);
         updateScoreUI();
-        startTimer();
+        isProcessingAnswer = false;
+        startTimer(QUESTION_TIME_MS);
     }
 
     private void updateFatStatusUI(int fatLevel) {
         String status;
         if (fatLevel == 0) {
-            status = "ร่างตัวละคร: ปกติ (Fat Lv.0)";
+            status = getString(R.string.fat_status_0);
         } else if (fatLevel <= 2) {
-            status = "ร่างตัวละคร: เริ่มอ้วนขึ้น (Fat Lv." + fatLevel + ")";
+            status = getString(R.string.fat_status_low, fatLevel);
         } else if (fatLevel <= 4) {
-            status = "ร่างตัวละคร: ตัวโตสมบูรณ์! (Fat Lv." + fatLevel + ")";
+            status = getString(R.string.fat_status_mid, fatLevel);
         } else {
-            status = "ร่างตัวละคร: อ้วนขั้นสุดยอด!! (Fat Lv." + fatLevel + ")";
+            status = getString(R.string.fat_status_high, fatLevel);
         }
         tvFatStatus.setText(status);
     }
 
     private void handleAnswer(int selectedIndex) {
-        if (isGameOver || !characterController.canAnswer()) return;
+        if (currentState != GameState.PLAYING || isProcessingAnswer || !characterController.canAnswer()) {
+            return;
+        }
 
+        isProcessingAnswer = true;
         stopTimer();
+        for (Button btn : choiceButtons) {
+            btn.setEnabled(false);
+        }
+
         boolean isCorrect = answerChecker.checkAnswer(currentQuestion, selectedIndex, remainingTimeMs);
 
         if (isCorrect) {
@@ -210,18 +337,21 @@ public class MainActivity extends AppCompatActivity {
             updateScoreUI();
             loadNextQuestion();
         } else {
-            triggerGameOver("คำตอบที่ถูกคือ: " + currentQuestion.getChoices().get(currentQuestion.getCorrectIndex()), "GAME OVER!");
+            triggerGameOver("คำตอบที่ถูกคือ: " + currentQuestion.getChoices().get(currentQuestion.getCorrectIndex()), getString(R.string.game_over_title));
         }
     }
 
     private void handleTimeout() {
-        if (isGameOver || !characterController.canAnswer()) return;
+        if (currentState != GameState.PLAYING || isProcessingAnswer || !characterController.canAnswer()) {
+            return;
+        }
+        isProcessingAnswer = true;
         answerChecker.checkAnswer(currentQuestion, -1, 0);
-        triggerGameOver("เวลาหมด! คำตอบที่ถูกคือ: " + currentQuestion.getChoices().get(currentQuestion.getCorrectIndex()), "TIME'S UP!");
+        triggerGameOver("เวลาหมด! คำตอบที่ถูกคือ: " + currentQuestion.getChoices().get(currentQuestion.getCorrectIndex()), getString(R.string.times_up_title));
     }
 
     private void triggerGameOver(String reasonMessage, String title) {
-        isGameOver = true;
+        currentState = GameState.GAME_OVER;
         stopTimer();
         characterController.onWrongAnswer();
 
@@ -243,7 +373,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void restartGame() {
-        isGameOver = false;
+        currentState = GameState.PLAYING;
+        layoutStartScreen.setVisibility(View.GONE);
+        layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
         answerChecker.reset();
         characterController.reset();
@@ -251,9 +383,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateScoreUI() {
-        tvScore.setText("Score: " + answerChecker.getScore());
-        tvCombo.setText("Combo: " + answerChecker.getStreak() + " 🔥");
-        tvHighScore.setText("Best: " + highScore + " 🏆");
+        tvScore.setText(getString(R.string.score_format, answerChecker.getScore()));
+        tvCombo.setText(getString(R.string.combo_format, answerChecker.getStreak()));
+        tvHighScore.setText(getString(R.string.best_score_format, highScore));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pauseGame();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (currentState == GameState.PAUSED) {
+            layoutPauseOverlay.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
