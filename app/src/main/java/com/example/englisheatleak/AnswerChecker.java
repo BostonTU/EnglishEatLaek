@@ -53,9 +53,4 @@ public class AnswerChecker {
     public int getTotalAnswered() { return totalAnswered; }
     public int getCorrectCount() { return correctCount; }
     public int getLastEarnedPoints() { return lastEarnedPoints; }
-
-    public int getAccuracyPercentage() {
-        if (totalAnswered == 0) return 0;
-        return (correctCount * 100) / totalAnswered;
-    }
 }

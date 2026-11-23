@@ -415,8 +415,7 @@ public class MainActivity extends AppCompatActivity {
         tvGameOverTitle.setText(title);
         tvGameOverReason.setText(reasonMessage);
         String stats = "Final Score: " + score + " | Best: " + highScore +
-                "\nAccuracy: " + answerChecker.getAccuracyPercentage() + "% (" +
-                answerChecker.getCorrectCount() + "/" + answerChecker.getTotalAnswered() + ")";
+                "\nCorrect Answers: " + answerChecker.getCorrectCount() + "/" + answerChecker.getTotalAnswered();
         tvFinalStats.setText(stats);
         layoutGameOver.setVisibility(View.VISIBLE);
     }

@@ -31,7 +31,6 @@ public class GameplayUnitTest {
         // Base score 10 + Time bonus 10 = 20
         assertEquals(20, answerChecker.getScore());
         assertEquals(20, answerChecker.getLastEarnedPoints());
-        assertEquals(100, answerChecker.getAccuracyPercentage());
     }
 
     @Test
@@ -60,7 +59,6 @@ public class GameplayUnitTest {
         assertEquals(0, answerChecker.getStreak());
         assertEquals(1, answerChecker.getCorrectCount());
         assertEquals(2, answerChecker.getTotalAnswered());
-        assertEquals(50, answerChecker.getAccuracyPercentage());
     }
 
     @Test
