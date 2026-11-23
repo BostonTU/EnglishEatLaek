@@ -69,20 +69,24 @@ public class EffectPlayer {
 
     /** ข้อความสั้น ๆ เด้งขึ้นเหนือหัวแล้วลอยหายไป (สุ่มคำ ไม่ซ้ำคำเดิมติดกัน) */
     public void showWord() {
-        ViewGroup parent = parent();
-        if (parent == null || anchor.getWidth() == 0) return;
-
         int i;
         do {
             i = random.nextInt(WORDS.length);
         } while (i == lastWord);
         lastWord = i;
+        showCustomWord(WORDS[i], WORD_COLORS[i]);
+    }
+
+    /** แสดงข้อความลอยแบบกำหนดคำและสีเอง */
+    public void showCustomWord(String text, int color) {
+        ViewGroup parent = parent();
+        if (parent == null || anchor.getWidth() == 0) return;
 
         final TextView tv = new TextView(anchor.getContext());
-        tv.setText(WORDS[i]);
+        tv.setText(text);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
         tv.setTypeface(Typeface.DEFAULT_BOLD);
-        tv.setTextColor(WORD_COLORS[i]);
+        tv.setTextColor(color);
         tv.setShadowLayer(dp(3), 0f, dp(1), 0xFF000000);
         tv.setAlpha(0f);
         parent.addView(tv, new ViewGroup.LayoutParams(

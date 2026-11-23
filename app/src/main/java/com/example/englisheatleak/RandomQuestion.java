@@ -23,6 +23,7 @@ public class RandomQuestion {
         public Vocabulary getTargetVocab() { return targetVocab; }
         public List<String> getChoices() { return choices; }
         public int getCorrectIndex() { return correctIndex; }
+        public String getDifficulty() { return targetVocab != null ? targetVocab.getDifficulty() : "Easy"; }
     }
 
     public RandomQuestion(List<Vocabulary> vocabList) {
@@ -31,26 +32,49 @@ public class RandomQuestion {
     }
 
     public Question generateQuestion() {
-        if (allVocabList == null || allVocabList.size() < 2) {
-            throw new IllegalStateException("ต้องมีคำศัพท์ในคลังอย่างน้อย 2 คำ");
+        return generateQuestionByDifficulty(null);
+    }
+
+    public Question generateQuestionByFatLevel(int fatLevel) {
+        String difficulty;
+        if (fatLevel <= 1) {
+            difficulty = "Easy";
+        } else if (fatLevel <= 4) {
+            difficulty = "Medium";
+        } else {
+            difficulty = "Hard";
+        }
+        return generateQuestionByDifficulty(difficulty);
+    }
+
+    public Question generateQuestionByDifficulty(String difficulty) {
+        List<Vocabulary> pool;
+        if (difficulty != null) {
+            pool = VocabularyDatabase.getWordsByDifficulty(difficulty);
+        } else {
+            pool = new ArrayList<>(allVocabList);
         }
 
-        int targetIdx = random.nextInt(allVocabList.size());
-        Vocabulary targetVocab = allVocabList.get(targetIdx);
+        if (pool == null || pool.size() < 2) {
+            pool = new ArrayList<>(allVocabList);
+        }
+
+        int targetIdx = random.nextInt(pool.size());
+        Vocabulary targetVocab = pool.get(targetIdx);
         String correctAnswer = targetVocab.getThaiMeaning();
 
         List<String> choices = new ArrayList<>();
         choices.add(correctAnswer);
 
-        List<Vocabulary> pool = new ArrayList<>(allVocabList);
-        pool.remove(targetIdx);
-        Collections.shuffle(pool, random);
+        List<Vocabulary> wrongChoicePool = new ArrayList<>(allVocabList);
+        wrongChoicePool.remove(targetVocab);
+        Collections.shuffle(wrongChoicePool, random);
 
-        for (Vocabulary v : pool) {
+        for (Vocabulary v : wrongChoicePool) {
             if (!choices.contains(v.getThaiMeaning())) {
                 choices.add(v.getThaiMeaning());
             }
-            if (choices.size() == 2) break; // เอาแค่ 2 ช้อยส์
+            if (choices.size() == 2) break;
         }
 
         Collections.shuffle(choices, random);

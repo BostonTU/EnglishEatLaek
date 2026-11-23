@@ -5,6 +5,7 @@ public class AnswerChecker {
     private int streak;
     private int totalAnswered;
     private int correctCount;
+    private int lastEarnedPoints;
 
     public AnswerChecker() {
         reset();
@@ -15,30 +16,46 @@ public class AnswerChecker {
         this.streak = 0;
         this.totalAnswered = 0;
         this.correctCount = 0;
+        this.lastEarnedPoints = 0;
     }
 
     public boolean checkAnswer(RandomQuestion.Question question, int selectedIndex) {
+        return checkAnswer(question, selectedIndex, 0);
+    }
+
+    public boolean checkAnswer(RandomQuestion.Question question, int selectedIndex, long timeRemainingMs) {
         totalAnswered++;
-        boolean isCorrect = (selectedIndex == question.getCorrectIndex());
+        boolean isCorrect = (question != null && selectedIndex == question.getCorrectIndex());
 
         if (isCorrect) {
             correctCount++;
             streak++;
-            score += 10 + (streak > 1 ? (streak - 1) * 2 : 0);
+            int baseScore = 10;
+            int comboBonus = (streak > 1 ? (streak - 1) * 3 : 0);
+            int timeBonus = (int) (timeRemainingMs / 1000) * 2;
+            lastEarnedPoints = baseScore + comboBonus + timeBonus;
+            score += lastEarnedPoints;
         } else {
             streak = 0;
+            lastEarnedPoints = 0;
         }
 
         return isCorrect;
     }
 
     public boolean checkAnswer(RandomQuestion.Question question, String selectedMeaning) {
-        int index = question.getChoices().indexOf(selectedMeaning);
-        return checkAnswer(question, index);
+        int index = question != null && question.getChoices() != null ? question.getChoices().indexOf(selectedMeaning) : -1;
+        return checkAnswer(question, index, 0);
     }
 
     public int getScore() { return score; }
     public int getStreak() { return streak; }
     public int getTotalAnswered() { return totalAnswered; }
     public int getCorrectCount() { return correctCount; }
+    public int getLastEarnedPoints() { return lastEarnedPoints; }
+
+    public int getAccuracyPercentage() {
+        if (totalAnswered == 0) return 0;
+        return (correctCount * 100) / totalAnswered;
+    }
 }

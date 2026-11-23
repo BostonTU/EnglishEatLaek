@@ -491,6 +491,10 @@ public class CharacterController {
         return fatLevel;
     }
 
+    public EffectPlayer getEffects() {
+        return effects;
+    }
+
     public boolean isDead() {
         return isDead;
     }
