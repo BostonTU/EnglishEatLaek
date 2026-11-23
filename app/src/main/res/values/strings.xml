@@ -11,10 +11,12 @@
 
     <!-- Buttons -->
     <string name="btn_start_game">เริ่มเล่นเกม (Start)</string>
+    <string name="btn_settings">ตั้งค่า ⚙️</string>
     <string name="btn_reset_high_score">ลบสถิติคะแนนสูงสุด</string>
     <string name="btn_play_again">เล่นอีกครั้ง</string>
     <string name="btn_main_menu">หน้าหลัก</string>
     <string name="btn_resume">เล่นเกมต่อ</string>
+    <string name="btn_back_to_main">กลับหน้าหลัก</string>
 
     <!-- Character Status -->
     <string name="fat_status_0">ร่างตัวละคร: ปกติ (Fat Lv.0)</string>
@@ -27,6 +29,16 @@
     <string name="paused_subtitle">แตะปุ่มเพื่อเล่นเกมต่อจากเวลาที่เหลืออยู่</string>
     <string name="game_over_title">GAME OVER!</string>
     <string name="times_up_title">TIME\'S UP!</string>
+
+    <!-- Settings -->
+    <string name="settings_title">ตั้งค่าเกม ⚙️</string>
+    <string name="settings_current_stat">สถิติปัจจุบัน</string>
+    <string name="settings_sound_title">เสียงเกม (Sound Effects)</string>
+    <string name="settings_sound_desc">เปิด/ปิด เสียงเอฟเฟกต์ตอบคำถามและปุ่มกด</string>
+    <string name="settings_reset_title">ลบสถิติคะแนนสูงสุด</string>
+    <string name="settings_reset_desc">ลบสถิติ High Score ทั้งหมดออกจากเครื่อง</string>
+    <string name="settings_about_title">เกี่ยวกับเกม English Eat Laek</string>
+    <string name="settings_about_desc">English Eat Laek v1.0\nเกมทายคำศัพท์ภาษาอังกฤษ ตอบถูกตัวละครจะกินและตัวใหญ่ขึ้น!</string>
 
     <!-- Dialogs & Confirmation -->
     <string name="confirm_reset_title">ยืนยันการลบสถิติ</string>

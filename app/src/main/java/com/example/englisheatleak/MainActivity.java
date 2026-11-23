@@ -1,7 +1,6 @@
 package com.example.englisheatleak;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -25,8 +24,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String PREFS_NAME = "EnglishEatLaekPrefs";
-    private static final String KEY_HIGH_SCORE = "high_score";
     private static final long QUESTION_TIME_MS = 10000; // 10 วินาทีต่อคำถาม
 
     private enum GameState {
@@ -37,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private GameState currentState = GameState.START_MENU;
+
+    private DataManager dataManager;
+    private SoundManager soundManager;
 
     private CharacterController characterController;
     private RandomQuestion randomQuestion;
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layoutStartScreen;
     private TextView tvStartHighScore;
     private Button btnStartGame;
+    private Button btnSettings;
     private Button btnResetHighScore;
 
     // Pause Overlay Views
@@ -85,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        dataManager = DataManager.getInstance(this);
+        soundManager = SoundManager.getInstance(this);
+
         ImageView characterView = findViewById(R.id.characterView);
         characterController = new CharacterController(characterView, findViewById(R.id.shadowView));
 
@@ -107,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         layoutStartScreen = findViewById(R.id.layoutStartScreen);
         tvStartHighScore = findViewById(R.id.tvStartHighScore);
         btnStartGame = findViewById(R.id.btnStartGame);
+        btnSettings = findViewById(R.id.btnSettings);
         btnResetHighScore = findViewById(R.id.btnResetHighScore);
 
         // Pause Overlay Views
@@ -136,17 +141,46 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < choiceButtons.length; i++) {
             final int choiceIndex = i;
-            choiceButtons[i].setOnClickListener(v -> handleAnswer(choiceIndex));
+            choiceButtons[i].setOnClickListener(v -> {
+                soundManager.playButtonClickSound();
+                handleAnswer(choiceIndex);
+            });
         }
 
-        btnStartGame.setOnClickListener(v -> startGame());
-        btnResetHighScore.setOnClickListener(v -> showResetHighScoreConfirmationDialog());
+        btnStartGame.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            startGame();
+        });
 
-        btnResumeGame.setOnClickListener(v -> resumeGame());
-        btnPauseQuitMenu.setOnClickListener(v -> showStartScreen());
+        btnSettings.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        });
 
-        btnRestart.setOnClickListener(v -> restartGame());
-        btnGameOverMenu.setOnClickListener(v -> showStartScreen());
+        btnResetHighScore.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            showResetHighScoreConfirmationDialog();
+        });
+
+        btnResumeGame.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            resumeGame();
+        });
+
+        btnPauseQuitMenu.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            showStartScreen();
+        });
+
+        btnRestart.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            restartGame();
+        });
+
+        btnGameOverMenu.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            showStartScreen();
+        });
 
         setupBackNavigation();
         showStartScreen();
@@ -179,8 +213,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadHighScore() {
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        highScore = prefs.getInt(KEY_HIGH_SCORE, 0);
+        highScore = dataManager.getHighScore();
         updateHighScoreDisplay();
     }
 
@@ -190,10 +223,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveHighScore(int score) {
-        if (score > highScore) {
-            highScore = score;
-            SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-            prefs.edit().putInt(KEY_HIGH_SCORE, highScore).apply();
+        if (dataManager.saveHighScore(score)) {
+            highScore = dataManager.getHighScore();
             updateHighScoreDisplay();
         }
     }
@@ -203,10 +234,10 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle(getString(R.string.confirm_reset_title))
                 .setMessage(getString(R.string.confirm_reset_message))
                 .setPositiveButton(getString(R.string.confirm_yes), (dialog, which) -> {
-                    SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-                    prefs.edit().remove(KEY_HIGH_SCORE).apply();
-                    highScore = 0;
-                    updateHighScoreDisplay();
+                    dataManager.resetHighScore();
+                    dataManager.clearSavedGameState();
+                    loadHighScore();
+                    soundManager.playWrongSound();
                     Toast.makeText(MainActivity.this, getString(R.string.toast_reset_success), Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(getString(R.string.confirm_cancel), null)
@@ -217,13 +248,15 @@ public class MainActivity extends AppCompatActivity {
         stopTimer();
         currentState = GameState.START_MENU;
         isProcessingAnswer = false;
+        dataManager.clearSavedGameState();
         layoutStartScreen.setVisibility(View.VISIBLE);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
-        updateHighScoreDisplay();
+        loadHighScore();
     }
 
     private void startGame() {
+        dataManager.clearSavedGameState();
         layoutStartScreen.setVisibility(View.GONE);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
@@ -265,8 +298,20 @@ public class MainActivity extends AppCompatActivity {
         if (currentState == GameState.PLAYING) {
             stopTimer();
             currentState = GameState.PAUSED;
+            saveCurrentGameState();
             layoutPauseOverlay.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void saveCurrentGameState() {
+        int wordId = (currentQuestion != null && currentQuestion.getTargetVocab() != null) ? currentQuestion.getTargetVocab().getId() : -1;
+        dataManager.saveGameState(
+                answerChecker.getScore(),
+                answerChecker.getStreak(),
+                characterController.getFatLevel(),
+                wordId,
+                remainingTimeMs
+        );
     }
 
     private void resumeGame() {
@@ -324,6 +369,7 @@ public class MainActivity extends AppCompatActivity {
         boolean isCorrect = answerChecker.checkAnswer(currentQuestion, selectedIndex, remainingTimeMs);
 
         if (isCorrect) {
+            soundManager.playCorrectSound();
             characterController.onCorrectAnswer();
             int points = answerChecker.getLastEarnedPoints();
             characterController.getEffects().showCustomWord("+" + points + " PTS!", Color.parseColor("#FFE04A"));
@@ -337,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
             updateScoreUI();
             loadNextQuestion();
         } else {
+            soundManager.playWrongSound();
             triggerGameOver("คำตอบที่ถูกคือ: " + currentQuestion.getChoices().get(currentQuestion.getCorrectIndex()), getString(R.string.game_over_title));
         }
     }
@@ -346,6 +393,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         isProcessingAnswer = true;
+        soundManager.playWrongSound();
         answerChecker.checkAnswer(currentQuestion, -1, 0);
         triggerGameOver("เวลาหมด! คำตอบที่ถูกคือ: " + currentQuestion.getChoices().get(currentQuestion.getCorrectIndex()), getString(R.string.times_up_title));
     }
@@ -353,6 +401,7 @@ public class MainActivity extends AppCompatActivity {
     private void triggerGameOver(String reasonMessage, String title) {
         currentState = GameState.GAME_OVER;
         stopTimer();
+        dataManager.clearSavedGameState();
         characterController.onWrongAnswer();
 
         int score = answerChecker.getScore();
@@ -374,6 +423,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void restartGame() {
         currentState = GameState.PLAYING;
+        dataManager.clearSavedGameState();
         layoutStartScreen.setVisibility(View.GONE);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
@@ -397,6 +447,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        loadHighScore();
         if (currentState == GameState.PAUSED) {
             layoutPauseOverlay.setVisibility(View.VISIBLE);
         }
