@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private SoundManager soundManager;
 
     private CharacterController characterController;
+    private StartScreenAnimator startScreenAnimator;
     private RandomQuestion randomQuestion;
     private AnswerChecker answerChecker;
     private RandomQuestion.Question currentQuestion;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView characterView = findViewById(R.id.characterView);
         characterController = new CharacterController(characterView, findViewById(R.id.shadowView));
+        startScreenAnimator = new StartScreenAnimator(findViewById(R.id.imgStartCharacter));
 
         // Game Header & Content Views
         tvScore = findViewById(R.id.tvScore);
@@ -254,11 +256,13 @@ public class MainActivity extends AppCompatActivity {
         layoutStartScreen.setVisibility(View.VISIBLE);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
+        startScreenAnimator.start();
         loadHighScore();
     }
 
     private void startGame() {
         dataManager.clearSavedGameState();
+        startScreenAnimator.stop();
         layoutStartScreen.setVisibility(View.GONE);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
@@ -443,6 +447,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        startScreenAnimator.stop();
         pauseGame();
     }
 
@@ -450,6 +455,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadHighScore();
+        if (currentState == GameState.START_MENU) {
+            startScreenAnimator.start();
+        }
         if (currentState == GameState.PAUSED) {
             layoutPauseOverlay.setVisibility(View.VISIBLE);
         }
@@ -459,6 +467,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopTimer();
+        startScreenAnimator.release();
         characterController.release();
     }
 }

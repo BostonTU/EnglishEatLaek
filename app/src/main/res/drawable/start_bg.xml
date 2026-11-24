@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Start screen DAY: sunny pixel meadow with sun, clouds, hills, trees, burger & apple. Needs API 23+. Anchored to top/bottom/start/end so it adapts to screen sizes. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- ท้องฟ้ากลางวัน: ไล่สีเป็นขั้นแบบ pixel จากฟ้าเข้มด้านบนไปฟ้าอ่อนใกล้ขอบฟ้า -->
+    <item><shape><solid android:color="#4FA8E8"/></shape></item>
+    <item android:gravity="bottom" android:height="700dp"><shape><solid android:color="#62B6EE"/></shape></item>
+    <item android:gravity="bottom" android:height="580dp"><shape><solid android:color="#78C4F2"/></shape></item>
+    <item android:gravity="bottom" android:height="470dp"><shape><solid android:color="#8ED2F5"/></shape></item>
+    <item android:gravity="bottom" android:height="380dp"><shape><solid android:color="#A8DFF7"/></shape></item>
+    <item android:gravity="bottom" android:height="300dp"><shape><solid android:color="#C2EAF8"/></shape></item>
+    <item android:gravity="bottom" android:height="240dp"><shape><solid android:color="#DDF3F6"/></shape></item>
+    <item android:gravity="bottom" android:height="190dp"><shape><solid android:color="#F3F9E8"/></shape></item>
+
+    <!-- ดวงอาทิตย์ (วงกลม pixel + รัศมี) -->
+    <item android:gravity="top|end" android:top="44dp" android:right="36dp" android:width="64dp" android:height="64dp"><shape><solid android:color="#FFF3A8"/></shape></item>
+    <item android:gravity="top|end" android:top="36dp" android:right="44dp" android:width="48dp" android:height="80dp"><shape><solid android:color="#FFF3A8"/></shape></item>
+    <item android:gravity="top|end" android:top="52dp" android:right="28dp" android:width="80dp" android:height="48dp"><shape><solid android:color="#FFF3A8"/></shape></item>
+    <item android:gravity="top|end" android:top="60dp" android:right="44dp" android:width="48dp" android:height="48dp"><shape><solid android:color="#FFD629"/></shape></item>
+    <item android:gravity="top|end" android:top="52dp" android:right="52dp" android:width="32dp" android:height="64dp"><shape><solid android:color="#FFD629"/></shape></item>
+    <item android:gravity="top|end" android:top="68dp" android:right="36dp" android:width="64dp" android:height="32dp"><shape><solid android:color="#FFD629"/></shape></item>
+    <item android:gravity="top|end" android:top="70dp" android:right="84dp" android:width="12dp" android:height="12dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+
+    <!-- เมฆ -->
+    <item android:gravity="top|start" android:left="20dp" android:top="96dp" android:width="64dp" android:height="12dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="top|start" android:left="32dp" android:top="84dp" android:width="40dp" android:height="12dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="top|start" android:left="28dp" android:top="100dp" android:width="16dp" android:height="8dp"><shape><solid android:color="#E3F4FF"/></shape></item>
+    <item android:gravity="top|end" android:top="182dp" android:right="110dp" android:width="64dp" android:height="12dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="top|end" android:top="170dp" android:right="122dp" android:width="40dp" android:height="12dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="top|end" android:top="186dp" android:right="118dp" android:width="16dp" android:height="8dp"><shape><solid android:color="#E3F4FF"/></shape></item>
+    <item android:gravity="top|start" android:left="150dp" android:top="262dp" android:width="64dp" android:height="12dp"><shape><solid android:color="#F4FBFF"/></shape></item>
+    <item android:gravity="top|start" android:left="162dp" android:top="250dp" android:width="40dp" android:height="12dp"><shape><solid android:color="#F4FBFF"/></shape></item>
+    <item android:gravity="top|start" android:left="158dp" android:top="266dp" android:width="16dp" android:height="8dp"><shape><solid android:color="#D9EEFA"/></shape></item>
+    <item android:gravity="top|end" android:top="302dp" android:right="-20dp" android:width="64dp" android:height="12dp"><shape><solid android:color="#F4FBFF"/></shape></item>
+    <item android:gravity="top|end" android:top="290dp" android:right="-8dp" android:width="40dp" android:height="12dp"><shape><solid android:color="#F4FBFF"/></shape></item>
+    <item android:gravity="top|end" android:top="306dp" android:right="-12dp" android:width="16dp" android:height="8dp"><shape><solid android:color="#D9EEFA"/></shape></item>
+    <item android:gravity="top|start" android:left="-24dp" android:top="412dp" android:width="64dp" android:height="12dp"><shape><solid android:color="#EAF7FF"/></shape></item>
+    <item android:gravity="top|start" android:left="-12dp" android:top="400dp" android:width="40dp" android:height="12dp"><shape><solid android:color="#EAF7FF"/></shape></item>
+    <item android:gravity="top|start" android:left="-16dp" android:top="416dp" android:width="16dp" android:height="8dp"><shape><solid android:color="#D2EAF8"/></shape></item>
+
+    <!-- นกเล็ก ๆ บนฟ้า -->
+    <item android:gravity="top|start" android:left="96dp" android:top="60dp" android:width="8dp" android:height="2dp"><shape><solid android:color="#3B4A6B"/></shape></item>
+    <item android:gravity="top|start" android:left="96dp" android:top="62dp" android:width="2dp" android:height="4dp"><shape><solid android:color="#3B4A6B"/></shape></item>
+    <item android:gravity="top|start" android:left="112dp" android:top="70dp" android:width="8dp" android:height="2dp"><shape><solid android:color="#3B4A6B"/></shape></item>
+    <item android:gravity="top|start" android:left="118dp" android:top="72dp" android:width="2dp" android:height="4dp"><shape><solid android:color="#3B4A6B"/></shape></item>
+
+    <!-- เนินเขาไกล ๆ (สีซีด) -->
+    <item android:gravity="bottom|start" android:left="-60dp" android:bottom="70dp" android:width="300dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|start" android:left="-40dp" android:bottom="86dp" android:width="260dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|start" android:left="-20dp" android:bottom="102dp" android:width="220dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|start" android:bottom="118dp" android:width="180dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|start" android:left="20dp" android:bottom="134dp" android:width="140dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|start" android:left="40dp" android:bottom="150dp" android:width="100dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|end" android:right="-80dp" android:bottom="70dp" android:width="340dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|end" android:right="-60dp" android:bottom="86dp" android:width="300dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|end" android:right="-40dp" android:bottom="102dp" android:width="260dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|end" android:right="-20dp" android:bottom="118dp" android:width="220dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|end" android:bottom="134dp" android:width="180dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|end" android:right="20dp" android:bottom="150dp" android:width="140dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+    <item android:gravity="bottom|end" android:right="40dp" android:bottom="166dp" android:width="100dp" android:height="16dp"><shape><solid android:color="#A8DDA0"/></shape></item>
+
+    <!-- เนินเขาใกล้ -->
+    <item android:gravity="bottom|start" android:left="-90dp" android:bottom="70dp" android:width="260dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|start" android:left="-70dp" android:bottom="84dp" android:width="220dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|start" android:left="-50dp" android:bottom="98dp" android:width="180dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|start" android:left="-30dp" android:bottom="112dp" android:width="140dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|start" android:left="-10dp" android:bottom="126dp" android:width="100dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|end" android:right="-50dp" android:bottom="70dp" android:width="220dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|end" android:right="-30dp" android:bottom="84dp" android:width="180dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|end" android:right="-10dp" android:bottom="98dp" android:width="140dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|end" android:right="10dp" android:bottom="112dp" android:width="100dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|start" android:left="190dp" android:bottom="70dp" android:width="140dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|start" android:left="210dp" android:bottom="84dp" android:width="100dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+    <item android:gravity="bottom|start" android:left="230dp" android:bottom="98dp" android:width="60dp" android:height="14dp"><shape><solid android:color="#5CC070"/></shape></item>
+
+    <!-- ต้นไม้ pixel -->
+    <item android:gravity="bottom|start" android:left="98dp" android:bottom="76dp" android:width="6dp" android:height="18dp"><shape><solid android:color="#8B5A33"/></shape></item>
+    <item android:gravity="bottom|start" android:left="84dp" android:bottom="94dp" android:width="34dp" android:height="10dp"><shape><solid android:color="#2F9A47"/></shape></item>
+    <item android:gravity="bottom|start" android:left="88dp" android:bottom="104dp" android:width="26dp" android:height="10dp"><shape><solid android:color="#3CB255"/></shape></item>
+    <item android:gravity="bottom|start" android:left="92dp" android:bottom="114dp" android:width="18dp" android:height="8dp"><shape><solid android:color="#4CC964"/></shape></item>
+    <item android:gravity="bottom|start" android:left="92dp" android:bottom="98dp" android:width="6dp" android:height="4dp"><shape><solid android:color="#FF5A5F"/></shape></item>
+    <item android:gravity="bottom|start" android:left="104dp" android:bottom="108dp" android:width="6dp" android:height="4dp"><shape><solid android:color="#FF5A5F"/></shape></item>
+    <item android:gravity="bottom|end" android:right="98dp" android:bottom="76dp" android:width="6dp" android:height="18dp"><shape><solid android:color="#8B5A33"/></shape></item>
+    <item android:gravity="bottom|end" android:right="84dp" android:bottom="94dp" android:width="34dp" android:height="10dp"><shape><solid android:color="#2F9A47"/></shape></item>
+    <item android:gravity="bottom|end" android:right="88dp" android:bottom="104dp" android:width="26dp" android:height="10dp"><shape><solid android:color="#3CB255"/></shape></item>
+    <item android:gravity="bottom|end" android:right="92dp" android:bottom="114dp" android:width="18dp" android:height="8dp"><shape><solid android:color="#4CC964"/></shape></item>
+    <item android:gravity="bottom|end" android:right="92dp" android:bottom="98dp" android:width="6dp" android:height="4dp"><shape><solid android:color="#FF5A5F"/></shape></item>
+    <item android:gravity="bottom|end" android:right="104dp" android:bottom="108dp" android:width="6dp" android:height="4dp"><shape><solid android:color="#FF5A5F"/></shape></item>
+    <item android:gravity="bottom|start" android:left="190dp" android:bottom="76dp" android:width="6dp" android:height="18dp"><shape><solid android:color="#8B5A33"/></shape></item>
+    <item android:gravity="bottom|start" android:left="176dp" android:bottom="94dp" android:width="34dp" android:height="10dp"><shape><solid android:color="#2F9A47"/></shape></item>
+    <item android:gravity="bottom|start" android:left="180dp" android:bottom="104dp" android:width="26dp" android:height="10dp"><shape><solid android:color="#3CB255"/></shape></item>
+    <item android:gravity="bottom|start" android:left="184dp" android:bottom="114dp" android:width="18dp" android:height="8dp"><shape><solid android:color="#4CC964"/></shape></item>
+    <item android:gravity="bottom|start" android:left="184dp" android:bottom="98dp" android:width="6dp" android:height="4dp"><shape><solid android:color="#FF5A5F"/></shape></item>
+    <item android:gravity="bottom|start" android:left="196dp" android:bottom="108dp" android:width="6dp" android:height="4dp"><shape><solid android:color="#FF5A5F"/></shape></item>
+
+    <!-- พื้นหญ้า + ดิน -->
+    <item android:gravity="bottom" android:height="76dp"><shape><solid android:color="#7ADB72"/></shape></item>
+    <item android:gravity="bottom" android:height="70dp"><shape><solid android:color="#58C45E"/></shape></item>
+    <item android:gravity="bottom" android:height="56dp"><shape><solid android:color="#3FA34D"/></shape></item>
+    <item android:gravity="bottom" android:height="44dp"><shape><solid android:color="#A8713F"/></shape></item>
+    <item android:gravity="bottom" android:height="24dp"><shape><solid android:color="#8E5E3A"/></shape></item>
+
+    <!-- ต้นหญ้า / ดอกไม้ / เศษดิน -->
+    <item android:gravity="bottom|start" android:left="8dp" android:bottom="76dp" android:width="4dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="44dp" android:bottom="78dp" android:width="4dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="80dp" android:bottom="76dp" android:width="4dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="116dp" android:bottom="78dp" android:width="4dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="152dp" android:bottom="76dp" android:width="4dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="188dp" android:bottom="78dp" android:width="4dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="224dp" android:bottom="76dp" android:width="4dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="260dp" android:bottom="78dp" android:width="4dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="296dp" android:bottom="76dp" android:width="4dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="70dp" android:bottom="82dp" android:width="6dp" android:height="6dp"><shape><solid android:color="#FF8FB1"/></shape></item>
+    <item android:gravity="bottom|start" android:left="72dp" android:bottom="76dp" android:width="2dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="130dp" android:bottom="82dp" android:width="6dp" android:height="6dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="bottom|start" android:left="132dp" android:bottom="76dp" android:width="2dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="230dp" android:bottom="82dp" android:width="6dp" android:height="6dp"><shape><solid android:color="#FFD629"/></shape></item>
+    <item android:gravity="bottom|start" android:left="232dp" android:bottom="76dp" android:width="2dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="290dp" android:bottom="82dp" android:width="6dp" android:height="6dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="bottom|start" android:left="292dp" android:bottom="76dp" android:width="2dp" android:height="6dp"><shape><solid android:color="#2F8A3E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="30dp" android:bottom="12dp" android:width="8dp" android:height="4dp"><shape><solid android:color="#7B4F2E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="90dp" android:bottom="28dp" android:width="8dp" android:height="4dp"><shape><solid android:color="#7B4F2E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="150dp" android:bottom="8dp" android:width="8dp" android:height="4dp"><shape><solid android:color="#7B4F2E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="220dp" android:bottom="22dp" android:width="8dp" android:height="4dp"><shape><solid android:color="#7B4F2E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="280dp" android:bottom="12dp" android:width="8dp" android:height="4dp"><shape><solid android:color="#7B4F2E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="340dp" android:bottom="26dp" android:width="8dp" android:height="4dp"><shape><solid android:color="#7B4F2E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="60dp" android:bottom="34dp" android:width="8dp" android:height="4dp"><shape><solid android:color="#7B4F2E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="200dp" android:bottom="36dp" android:width="8dp" android:height="4dp"><shape><solid android:color="#7B4F2E"/></shape></item>
+    <item android:gravity="bottom|start" android:left="110dp" android:bottom="16dp" android:width="6dp" android:height="4dp"><shape><solid android:color="#C48A52"/></shape></item>
+    <item android:gravity="bottom|start" android:left="250dp" android:bottom="6dp" android:width="6dp" android:height="4dp"><shape><solid android:color="#C48A52"/></shape></item>
+    <item android:gravity="bottom|start" android:left="320dp" android:bottom="32dp" android:width="6dp" android:height="4dp"><shape><solid android:color="#C48A52"/></shape></item>
+
+    <!-- อาหาร: เบอร์เกอร์ + แอปเปิล -->
+    <item android:gravity="bottom|start" android:left="16dp" android:bottom="76dp" android:width="36dp" android:height="4dp"><shape><solid android:color="#D98A2B"/></shape></item>
+    <item android:gravity="bottom|start" android:left="14dp" android:bottom="80dp" android:width="40dp" android:height="4dp"><shape><solid android:color="#6B3A2A"/></shape></item>
+    <item android:gravity="bottom|start" android:left="12dp" android:bottom="84dp" android:width="44dp" android:height="3dp"><shape><solid android:color="#5BBF4A"/></shape></item>
+    <item android:gravity="bottom|start" android:left="14dp" android:bottom="87dp" android:width="40dp" android:height="3dp"><shape><solid android:color="#FFD629"/></shape></item>
+    <item android:gravity="bottom|start" android:left="16dp" android:bottom="90dp" android:width="36dp" android:height="6dp"><shape><solid android:color="#E8A23A"/></shape></item>
+    <item android:gravity="bottom|start" android:left="20dp" android:bottom="96dp" android:width="28dp" android:height="4dp"><shape><solid android:color="#E8A23A"/></shape></item>
+    <item android:gravity="bottom|start" android:left="24dp" android:bottom="100dp" android:width="20dp" android:height="2dp"><shape><solid android:color="#E8A23A"/></shape></item>
+    <item android:gravity="bottom|start" android:left="26dp" android:bottom="94dp" android:width="3dp" android:height="2dp"><shape><solid android:color="#FFF3C4"/></shape></item>
+    <item android:gravity="bottom|start" android:left="36dp" android:bottom="97dp" android:width="3dp" android:height="2dp"><shape><solid android:color="#FFF3C4"/></shape></item>
+    <item android:gravity="bottom|start" android:left="42dp" android:bottom="94dp" android:width="3dp" android:height="2dp"><shape><solid android:color="#FFF3C4"/></shape></item>
+    <item android:gravity="bottom|end" android:right="24dp" android:bottom="76dp" android:width="20dp" android:height="4dp"><shape><solid android:color="#B13E53"/></shape></item>
+    <item android:gravity="bottom|end" android:right="20dp" android:bottom="80dp" android:width="28dp" android:height="10dp"><shape><solid android:color="#E8404F"/></shape></item>
+    <item android:gravity="bottom|end" android:right="22dp" android:bottom="90dp" android:width="24dp" android:height="4dp"><shape><solid android:color="#E8404F"/></shape></item>
+    <item android:gravity="bottom|end" android:right="24dp" android:bottom="86dp" android:width="4dp" android:height="4dp"><shape><solid android:color="#FF9AA2"/></shape></item>
+    <item android:gravity="bottom|end" android:right="33dp" android:bottom="94dp" android:width="2dp" android:height="6dp"><shape><solid android:color="#6B3A2A"/></shape></item>
+    <item android:gravity="bottom|end" android:right="35dp" android:bottom="98dp" android:width="8dp" android:height="4dp"><shape><solid android:color="#3CB255"/></shape></item>
+    <item android:gravity="top|start" android:left="20dp" android:top="332dp" android:width="6dp" android:height="2dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="top|start" android:left="22dp" android:top="330dp" android:width="2dp" android:height="6dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="top|end" android:top="422dp" android:right="24dp" android:width="6dp" android:height="2dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="top|end" android:top="420dp" android:right="26dp" android:width="2dp" android:height="6dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="top|start" android:left="300dp" android:top="212dp" android:width="6dp" android:height="2dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+    <item android:gravity="top|start" android:left="302dp" android:top="210dp" android:width="2dp" android:height="6dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+</layer-list>

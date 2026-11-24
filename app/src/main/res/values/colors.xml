@@ -1,16 +1,18 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="px_bg">#1A1C2C</color>
-    <color name="px_panel">#333C57</color>
-    <color name="px_ink">#0D0E17</color>
-    <color name="px_text">#F4F4F4</color>
-    <color name="px_dim">#94B0C2</color>
-    <color name="px_yellow">#FFCD75</color>
+    <!-- Pixel Day Theme -->
+    <color name="px_bg">#B8E8F5</color>
+    <color name="px_panel">#FFF4D6</color>
+    <color name="px_ink">#79543A</color>
+    <color name="px_text">#493323</color>
+    <color name="px_dim">#80664F</color>
+    <color name="px_yellow">#D58B22</color>
     <color name="px_red">#B13E53</color>
-    <color name="px_green">#38B764</color>
+    <color name="px_red_text">#B13E53</color>
+    <color name="px_green">#238A47</color>
     <color name="px_blue">#3B5DC9</color>
 
     <color name="color_background">#EFF5F7</color>
@@ -27,4 +29,7 @@
     <color name="color_danger">#E84B4B</color>
     <color name="color_success">#16C653</color>
     <color name="color_orange">#FF9638</color>
+    <color name="px_score">#946000</color>
+    <color name="px_combo">#B04A12</color>
+    <color name="px_timer">#B3261E</color>
 </resources>

@@ -81,7 +81,8 @@
                         android:text="System default"
                         android:textColor="@color/px_text"
                         android:textSize="22sp"
-                        android:buttonTint="@color/px_yellow" />
+                        android:button="@drawable/pixel_radio"
+                        android:paddingStart="12dp" />
 
                     <RadioButton
                         android:id="@+id/radioThemeLight"
@@ -91,7 +92,8 @@
                         android:text="Light mode"
                         android:textColor="@color/px_text"
                         android:textSize="22sp"
-                        android:buttonTint="@color/px_yellow" />
+                        android:button="@drawable/pixel_radio"
+                        android:paddingStart="12dp" />
 
                     <RadioButton
                         android:id="@+id/radioThemeDark"
@@ -101,7 +103,8 @@
                         android:text="Dark mode"
                         android:textColor="@color/px_text"
                         android:textSize="22sp"
-                        android:buttonTint="@color/px_yellow" />
+                        android:button="@drawable/pixel_radio"
+                        android:paddingStart="12dp" />
 
                 </RadioGroup>
             </LinearLayout>
@@ -131,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="คะแนนสูงสุด: 0 🏆"
-                    android:textColor="@color/px_yellow"
+                    android:textColor="@color/px_score"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -175,7 +178,10 @@
                     android:id="@+id/switchSound"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true" />
+                    android:checked="true"
+                    app:track="@drawable/pixel_switch_track"
+                    android:thumb="@drawable/pixel_switch_thumb"
+                    app:showText="false" />
             </LinearLayout>
 
             <!-- Reset High Score -->
