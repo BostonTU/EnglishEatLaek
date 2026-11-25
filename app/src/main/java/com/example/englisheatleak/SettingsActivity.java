@@ -70,11 +70,14 @@ public class SettingsActivity extends AppCompatActivity {
                             WindowInsetsCompat.Type.systemBars()
                     );
 
+                    float density = v.getResources().getDisplayMetrics().density;
+                    int basePadding = (int) (20 * density);
+
                     v.setPadding(
-                            systemBars.left,
-                            systemBars.top,
-                            systemBars.right,
-                            systemBars.bottom
+                            basePadding + systemBars.left,
+                            basePadding + systemBars.top,
+                            basePadding + systemBars.right,
+                            basePadding + systemBars.bottom
                     );
 
                     return insets;

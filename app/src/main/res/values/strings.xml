@@ -11,7 +11,7 @@
 
     <!-- Buttons -->
     <string name="btn_start_game">เริ่มเล่นเกม (Start)</string>
-    <string name="btn_settings">ตั้งค่า ⚙️</string>
+    <string name="btn_settings">ตั้งค่า</string>
     <string name="btn_reset_high_score">ลบสถิติคะแนนสูงสุด</string>
     <string name="btn_play_again">เล่นอีกครั้ง</string>
     <string name="btn_main_menu">หน้าหลัก</string>
@@ -31,7 +31,7 @@
     <string name="times_up_title">TIME\'S UP!</string>
 
     <!-- Settings -->
-    <string name="settings_title">ตั้งค่าเกม ⚙️</string>
+    <string name="settings_title">ตั้งค่าเกม</string>
     <string name="settings_current_stat">สถิติปัจจุบัน</string>
     <string name="settings_sound_title">เสียงเกม (Sound Effects)</string>
     <string name="settings_sound_desc">เปิด/ปิด เสียงเอฟเฟกต์ตอบคำถามและปุ่มกด</string>

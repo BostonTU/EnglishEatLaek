@@ -153,4 +153,9 @@
     <item android:gravity="top|end" android:top="420dp" android:right="26dp" android:width="2dp" android:height="6dp"><shape><solid android:color="#FFFFFF"/></shape></item>
     <item android:gravity="top|start" android:left="300dp" android:top="212dp" android:width="6dp" android:height="2dp"><shape><solid android:color="#FFFFFF"/></shape></item>
     <item android:gravity="top|start" android:left="302dp" android:top="210dp" android:width="2dp" android:height="6dp"><shape><solid android:color="#FFFFFF"/></shape></item>
+
+    <!-- แสงเงาทั้งฉาก: แสงอ่อนด้านบน เงาอ่อนด้านล่าง -->
+    <item android:gravity="top" android:height="300dp"><shape><gradient android:angle="270" android:startColor="#33FFFFFF" android:endColor="#00FFFFFF"/></shape></item>
+    <item android:gravity="bottom" android:height="220dp"><shape><gradient android:angle="90" android:startColor="#38000000" android:endColor="#00000000"/></shape></item>
+
 </layer-list>

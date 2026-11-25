@@ -2,12 +2,13 @@
 <resources>
     <color name="px_bg">#1A1C2C</color>
     <color name="px_panel">#333C57</color>
+    <color name="px_panel_pressed">#22293D</color>
     <color name="px_ink">#566C86</color>
     <color name="px_text">#F4F4F4</color>
     <color name="px_dim">#94B0C2</color>
     <color name="px_yellow">#FFCD75</color>
     <color name="px_red">#B13E53</color>
-    <color name="px_red_text">#FF6B81</color>
+    <color name="px_red_text">#FF8A9B</color>
     <color name="px_green">#238A47</color>
     <color name="px_blue">#3B5DC9</color>
 
@@ -28,4 +29,8 @@
     <color name="px_score">#FFCD75</color>
     <color name="px_combo">#FF9A73</color>
     <color name="px_timer">#FF7A7A</color>
+    <color name="start_shadow">#CC000000</color>
+    <color name="px_outline">#0F1220</color>
+    <color name="px_stroke_dark">#000000</color>
+    <color name="px_stroke_light">#000000</color>
 </resources>

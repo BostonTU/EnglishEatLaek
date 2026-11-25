@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- PRESSED STATE: Depressed pixel button -->
+    <item android:state_pressed="true">
+        <layer-list>
+            <!-- Outer Pixel Border -->
+            <item android:left="4dp" android:right="4dp"><shape><solid android:color="@color/px_ink"/></shape></item>
+            <item android:top="4dp" android:bottom="4dp"><shape><solid android:color="@color/px_ink"/></shape></item>
+
+            <!-- Dark Inner Border -->
+            <item android:left="4dp" android:top="4dp" android:right="4dp" android:bottom="4dp">
+                <shape><solid android:color="@color/px_ink"/></shape>
+            </item>
+
+            <!-- Inner Pressed Fill (shifted 4dp down for sink effect) -->
+            <item android:left="4dp" android:top="8dp" android:right="4dp" android:bottom="4dp">
+                <shape><solid android:color="@color/px_panel_pressed"/></shape>
+            </item>
+            <!-- เงาด้านในตอนกด (ปุ่มจม) -->
+            <item android:left="4dp" android:top="8dp" android:right="4dp" android:gravity="top" android:height="4dp">
+                <shape><solid android:color="#33000000"/></shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <!-- NORMAL STATE: Raised pixel button -->
+    <item>
+        <layer-list>
+            <!-- Outer Pixel Border -->
+            <item android:left="4dp" android:right="4dp"><shape><solid android:color="@color/px_ink"/></shape></item>
+            <item android:top="4dp" android:bottom="4dp"><shape><solid android:color="@color/px_ink"/></shape></item>
+
+            <!-- Dark Bottom Shadow Area -->
+            <item android:left="4dp" android:top="4dp" android:right="4dp" android:bottom="4dp">
+                <shape><solid android:color="@color/px_ink"/></shape>
+            </item>
+
+            <!-- Main Button Fill (raised up with 4dp bottom shadow) -->
+            <item android:left="4dp" android:top="4dp" android:right="4dp" android:bottom="8dp">
+                <shape><solid android:color="@color/px_panel"/></shape>
+            </item>
+
+            <!-- Top Light Highlight Line for 3D pixel effect -->
+            <item android:left="4dp" android:top="4dp" android:right="4dp" android:bottom="12dp">
+                <shape><solid android:color="#35FFFFFF"/></shape>
+            </item>
+            <!-- แสงเงา: ไฮไลต์บน/ซ้าย เงาขวา -->
+            <item android:left="4dp" android:top="4dp" android:right="4dp" android:gravity="top" android:height="4dp">
+                <shape><solid android:color="#59FFFFFF"/></shape>
+            </item>
+            <item android:left="4dp" android:top="8dp" android:bottom="12dp" android:gravity="left" android:width="4dp">
+                <shape><solid android:color="#33FFFFFF"/></shape>
+            </item>
+            <item android:right="4dp" android:top="8dp" android:bottom="12dp" android:gravity="right" android:width="4dp">
+                <shape><solid android:color="#2E000000"/></shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

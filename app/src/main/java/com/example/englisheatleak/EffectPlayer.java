@@ -2,7 +2,9 @@ package com.example.englisheatleak;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,7 @@ import android.widget.TextView;
 import java.util.Random;
 
 /**
- * เอฟเฟกต์ลอยเหนือตัวละคร (ประกาย, ฝุ่น) สร้างด้วยโค้ดล้วน ไม่ต้องใช้ภาพ
+ * เอฟเฟกต์ลอยเหนือตัวละคร (ประกาย, ฝุ่นพิกเซล) สร้างด้วยโค้ดล้วน
  * View ทุกตัวถูกเพิ่มเข้า parent ของ characterView ชั่วคราวและลบทิ้งเองเมื่อเล่นจบ
  */
 public class EffectPlayer {
@@ -26,6 +28,13 @@ public class EffectPlayer {
     private static final int[] WORD_COLORS = {0xFFFFE04A, 0xFFFF8FB1, 0xFF7CF29C, 0xFFFFA64D};
     private static final String[] SPARKS = {"✦", "★", "✧"};
     private static final int[] SPARK_COLORS = {0xFFFFE04A, 0xFFFFFFFF, 0xFFFFB347, 0xFFFF8FB1};
+
+    private static final int[] SMOKE_FILLS = {
+            0xFFF7F0E3, // Light smoke
+            0xFFEADCC9, // Medium smoke
+            0xFFD5C4AC  // Dust tone
+    };
+    private static final int SMOKE_OUTLINE = 0xFF4E3728; // Dark pixel outline
 
     private final View anchor;
     private final Random random = new Random();
@@ -112,9 +121,33 @@ public class EffectPlayer {
         }
     }
 
-    // ---------------------------------------------------------------- ฝุ่น
+    // ---------------------------------------------------------------- ฝุ่นควันพิกเซล
 
-    /** ฝุ่นฟุ้งกระจายตามพื้นตอนตัวกระแทก (spread = ความกว้างที่ฟุ้ง) */
+    /** สร้าง Drawable ก้อนควันพิกเซลขอบเข้ม (Pixel Notched Block) */
+    private Drawable createPixelSmokeDrawable(int fillColor, int outlineColor) {
+        int inset = (int) Math.max(dp(2), 2);
+
+        GradientDrawable hBar = new GradientDrawable();
+        hBar.setShape(GradientDrawable.RECTANGLE);
+        hBar.setColor(outlineColor);
+
+        GradientDrawable vBar = new GradientDrawable();
+        vBar.setShape(GradientDrawable.RECTANGLE);
+        vBar.setColor(outlineColor);
+
+        GradientDrawable fill = new GradientDrawable();
+        fill.setShape(GradientDrawable.RECTANGLE);
+        fill.setColor(fillColor);
+
+        LayerDrawable layers = new LayerDrawable(new Drawable[]{hBar, vBar, fill});
+        layers.setLayerInset(0, inset, 0, inset, 0); // horiz border
+        layers.setLayerInset(1, 0, inset, 0, inset); // vert border
+        layers.setLayerInset(2, inset, inset, inset, inset); // inner fill
+
+        return layers;
+    }
+
+    /** ฝุ่นควันพิกเซลฟุ้งกระจายตามพื้นตอนตัวกระแทก (spread = ความกว้างที่ฟุ้ง) */
     public void dustPuff(float spreadDp, int count) {
         final ViewGroup parent = parent();
         if (parent == null || anchor.getWidth() == 0) return;
@@ -125,27 +158,30 @@ public class EffectPlayer {
 
         for (int n = 0; n < count; n++) {
             final View puff = new View(ctx);
-            GradientDrawable bg = new GradientDrawable();
-            bg.setShape(GradientDrawable.OVAL);
-            bg.setColor(0xCCE8DFD0);
-            puff.setBackground(bg);
+            int fillColor = SMOKE_FILLS[random.nextInt(SMOKE_FILLS.length)];
+            puff.setBackground(createPixelSmokeDrawable(fillColor, SMOKE_OUTLINE));
 
-            int size = (int) dp(8 + random.nextInt(10));
+            int size = (int) dp(10 + random.nextInt(12));
             parent.addView(puff, new ViewGroup.LayoutParams(size, size));
 
             float side = (n % 2 == 0) ? -1f : 1f;
-            float startX = cx + side * dp(random.nextInt(30)) - size / 2f;
+            float startX = cx + side * dp(random.nextInt(32)) - size / 2f;
             puff.setX(startX);
             puff.setY(groundY - size);
-            puff.setAlpha(0.9f);
+            puff.setAlpha(0.95f);
+
+            // หมุนเป็นมุมพิกเซล 0, 90, 180, 270 องศา
+            float rot = random.nextInt(4) * 90f;
+            puff.setRotation(rot);
 
             puff.animate()
                     .translationXBy(side * dp(spreadDp * (0.4f + random.nextFloat() * 0.6f)))
-                    .translationYBy(-dp(10 + random.nextInt(14)))
-                    .scaleX(2.2f).scaleY(2.2f)
+                    .translationYBy(-dp(12 + random.nextInt(16)))
+                    .scaleX(2.0f).scaleY(2.0f)
+                    .rotation(rot + (random.nextBoolean() ? 90f : -90f))
                     .alpha(0f)
                     .setInterpolator(new DecelerateInterpolator())
-                    .setDuration(500 + random.nextInt(200))
+                    .setDuration(520 + random.nextInt(220))
                     .withEndAction(new Runnable() {
                         @Override
                         public void run() {

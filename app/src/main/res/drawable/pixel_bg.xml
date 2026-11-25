@@ -467,4 +467,8 @@
     <item android:gravity="bottom|start" android:left="360dp" android:bottom="218dp" android:width="2dp" android:height="10dp"><shape><solid android:color="#8F7C60"/></shape></item>
     <item android:gravity="bottom|start" android:left="400dp" android:bottom="218dp" android:width="2dp" android:height="10dp"><shape><solid android:color="#8F7C60"/></shape></item>
 
+    <!-- แสงเงาทั้งฉาก: แสงอ่อนด้านบน เงาอ่อนด้านล่าง -->
+    <item android:gravity="top" android:height="300dp"><shape><gradient android:angle="270" android:startColor="#33FFFFFF" android:endColor="#00FFFFFF"/></shape></item>
+    <item android:gravity="bottom" android:height="220dp"><shape><gradient android:angle="90" android:startColor="#38000000" android:endColor="#00000000"/></shape></item>
+
 </layer-list>

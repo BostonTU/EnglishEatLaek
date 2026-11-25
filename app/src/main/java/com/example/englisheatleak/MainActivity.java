@@ -5,6 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.MotionEvent;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final long QUESTION_TIME_MS = 10000; // 10 วินาทีต่อคำถาม
 
+    private static final long WARNING_MS = 3000; // เตือนเมื่อเหลือ 3 วินาที
+    private boolean timerWarning = false;
+    private long lastWarnSecond = -1;
     private enum GameState {
         START_MENU,
         PLAYING,
@@ -39,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private SoundManager soundManager;
 
     private CharacterController characterController;
-    private StartScreenAnimator startScreenAnimator;
+    private ImageView imgMenuArrow;
     private RandomQuestion randomQuestion;
     private AnswerChecker answerChecker;
     private RandomQuestion.Question currentQuestion;
@@ -94,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView characterView = findViewById(R.id.characterView);
         characterController = new CharacterController(characterView, findViewById(R.id.shadowView));
-        startScreenAnimator = new StartScreenAnimator(findViewById(R.id.imgStartCharacter));
 
         // Game Header & Content Views
         tvScore = findViewById(R.id.tvScore);
@@ -117,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         btnStartGame = findViewById(R.id.btnStartGame);
         btnSettings = findViewById(R.id.btnSettings);
         btnResetHighScore = findViewById(R.id.btnResetHighScore);
+        imgMenuArrow = findViewById(R.id.imgMenuArrow);
 
         // Pause Overlay Views
         layoutPauseOverlay = findViewById(R.id.layoutPauseOverlay);
@@ -187,13 +194,45 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setupBackNavigation();
+        setupMenuArrow();
         showStartScreen();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            Insets sb = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            float d = getResources().getDisplayMetrics().density;
+            int pad = (int) (16 * d);
+            int extraTop = (int) (12 * d);
+
+            // เนื้อหาเกม: หลบแถบระบบ + ระยะขอบ
+            findViewById(R.id.gameContent).setPadding(
+                    sb.left + pad, sb.top + pad + extraTop,
+                    sb.right + pad, sb.bottom + pad);
+
+            // หน้าแรก: พื้นหลังเต็มจอ เนื้อหาหลบแถบระบบ
+            findViewById(R.id.layoutStartScreen).setPadding(
+                    sb.left + (int) (24 * d), sb.top + (int) (48 * d),
+                    sb.right + (int) (24 * d), sb.bottom + (int) (48 * d));
+
+            // pause overlay: พื้นดำเต็มจอ เนื้อหาหลบแถบระบบ
+            findViewById(R.id.layoutPauseOverlay).setPadding(
+                    sb.left + (int) (32 * d), sb.top,
+                    sb.right + (int) (32 * d), sb.bottom);
             return insets;
         });
+    }
+
+    private void fadeInView(View view) {
+        view.setAlpha(0f);
+        view.setScaleX(0.95f);
+        view.setScaleY(0.95f);
+        view.setVisibility(View.VISIBLE);
+        view.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(220)
+                .setInterpolator(new DecelerateInterpolator())
+                .start();
     }
 
     private void setupBackNavigation() {
@@ -248,21 +287,63 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    /** ลูกศรเมนูกะพริบแบบพิกเซล (เปิด 0.5 วิ ปิด 0.5 วิ) */
+    private void startArrowBlink() {
+        imgMenuArrow.clearAnimation();
+        AlphaAnimation blink = new AlphaAnimation(1f, 0f);
+        blink.setDuration(1000);
+        blink.setRepeatCount(Animation.INFINITE);
+        blink.setInterpolator(t -> t < 0.5f ? 0f : 1f);
+        imgMenuArrow.startAnimation(blink);
+    }
+
+    private void stopArrowBlink() {
+        imgMenuArrow.clearAnimation();
+    }
+
+    /** ลูกศรเมนูย้ายไปชี้ปุ่มที่ hover / โฟกัส / แตะ */
+    private void setupMenuArrow() {
+        Button[] rows = {btnStartGame, btnSettings, btnResetHighScore};
+        for (Button b : rows) {
+            b.setOnHoverListener((v, e) -> {
+                if (e.getAction() == MotionEvent.ACTION_HOVER_ENTER) pointArrowAt(v);
+                return false;
+            });
+            b.setOnFocusChangeListener((v, hasFocus) -> { if (hasFocus) pointArrowAt(v); });
+            b.setOnTouchListener((v, e) -> {
+                if (e.getAction() == MotionEvent.ACTION_DOWN) pointArrowAt(v);
+                return false;   // ให้ click ทำงานต่อ
+            });
+        }
+    }
+
+    private void pointArrowAt(View target) {
+        int[] a = new int[2], t = new int[2];
+        imgMenuArrow.getLocationInWindow(a);
+        target.getLocationInWindow(t);
+        float delta = (t[1] + target.getHeight() / 2f) - (a[1] + imgMenuArrow.getHeight() / 2f);
+        imgMenuArrow.animate().cancel();
+        imgMenuArrow.animate().translationY(imgMenuArrow.getTranslationY() + delta)
+                .setDuration(90).start();
+    }
+
     private void showStartScreen() {
         stopTimer();
         currentState = GameState.START_MENU;
         isProcessingAnswer = false;
         dataManager.clearSavedGameState();
-        layoutStartScreen.setVisibility(View.VISIBLE);
+        fadeInView(layoutStartScreen);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
-        startScreenAnimator.start();
+        imgMenuArrow.animate().cancel();
+        imgMenuArrow.setTranslationY(0f);
+        startArrowBlink();
         loadHighScore();
     }
 
     private void startGame() {
         dataManager.clearSavedGameState();
-        startScreenAnimator.stop();
+        stopArrowBlink();
         layoutStartScreen.setVisibility(View.GONE);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
@@ -281,6 +362,7 @@ public class MainActivity extends AppCompatActivity {
                 progressBarTimer.setProgress(progress);
                 long seconds = (millisUntilFinished / 1000) + 1;
                 tvTimer.setText(seconds + "s");
+                updateTimerWarning(millisUntilFinished);
             }
 
             @Override
@@ -288,6 +370,7 @@ public class MainActivity extends AppCompatActivity {
                 remainingTimeMs = 0;
                 progressBarTimer.setProgress(0);
                 tvTimer.setText("0s");
+                setTimerWarning(false);
                 handleTimeout();
             }
         }.start();
@@ -298,6 +381,45 @@ public class MainActivity extends AppCompatActivity {
             countDownTimer.cancel();
             countDownTimer = null;
         }
+        setTimerWarning(false);
+    }
+
+    private void updateTimerWarning(long msLeft) {
+        boolean warn = msLeft <= WARNING_MS;
+        if (warn != timerWarning) setTimerWarning(warn);
+        if (!warn) return;
+
+        // หลอดกะพริบแดงสลับสีเดิม ทุก 250 ms (เป็นขั้นแบบ pixel)
+        boolean red = ((msLeft / 250) % 2) == 0;
+        progressBarTimer.setProgressTintList(android.content.res.ColorStateList.valueOf(
+                red ? androidx.core.content.ContextCompat.getColor(this, R.color.px_red)
+                        : androidx.core.content.ContextCompat.getColor(this, R.color.px_yellow)));
+
+        // เด้งตัวเลข + สั่น ทุกครั้งที่ขึ้นวินาทีใหม่
+        long sec = msLeft / 1000;
+        if (sec != lastWarnSecond) {
+            lastWarnSecond = sec;
+            float d = getResources().getDisplayMetrics().density;
+            tvTimer.animate().cancel();
+            tvTimer.setPivotX(tvTimer.getWidth());
+            tvTimer.setPivotY(tvTimer.getHeight() / 2f);
+            tvTimer.setScaleX(1.4f);
+            tvTimer.setScaleY(1.4f);
+            tvTimer.setTranslationX(3 * d);
+            tvTimer.animate().scaleX(1f).scaleY(1f).translationX(0f).setDuration(250).start();
+        }
+    }
+
+    private void setTimerWarning(boolean on) {
+        timerWarning = on;
+        lastWarnSecond = -1;
+        if (!on) {
+            progressBarTimer.setProgressTintList(null);
+            tvTimer.animate().cancel();
+            tvTimer.setScaleX(1f);
+            tvTimer.setScaleY(1f);
+            tvTimer.setTranslationX(0f);
+        }
     }
 
     private void pauseGame() {
@@ -305,7 +427,7 @@ public class MainActivity extends AppCompatActivity {
             stopTimer();
             currentState = GameState.PAUSED;
             saveCurrentGameState();
-            layoutPauseOverlay.setVisibility(View.VISIBLE);
+            fadeInView(layoutPauseOverlay);
         }
     }
 
@@ -400,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
         isProcessingAnswer = true;
         soundManager.playWrongSound();
         answerChecker.checkAnswer(currentQuestion, -1, 0);
-        triggerGameOver("เวลาหมด! คำตอบที่ถูกคือ: " + currentQuestion.getChoices().get(currentQuestion.getCorrectIndex()), getString(R.string.times_up_title));
+        triggerGameOver("คำตอบที่ถูกคือ: " + currentQuestion.getChoices().get(currentQuestion.getCorrectIndex()), getString(R.string.times_up_title));
     }
 
     private void triggerGameOver(String reasonMessage, String title) {
@@ -419,10 +541,9 @@ public class MainActivity extends AppCompatActivity {
 
         tvGameOverTitle.setText(title);
         tvGameOverReason.setText(reasonMessage);
-        String stats = "Words: " + score + " | Best: " + highScore +
-                "\nCorrect Answers: " + answerChecker.getCorrectCount() + "/" + answerChecker.getTotalAnswered();
+        String stats = "Words: " + score + " | Best: " + highScore;
         tvFinalStats.setText(stats);
-        layoutGameOver.setVisibility(View.VISIBLE);
+        fadeInView(layoutGameOver);
     }
 
     private void restartGame() {
@@ -447,7 +568,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        startScreenAnimator.stop();
+        stopArrowBlink();
         pauseGame();
     }
 
@@ -456,7 +577,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         loadHighScore();
         if (currentState == GameState.START_MENU) {
-            startScreenAnimator.start();
+            startArrowBlink();
         }
         if (currentState == GameState.PAUSED) {
             layoutPauseOverlay.setVisibility(View.VISIBLE);
@@ -467,7 +588,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopTimer();
-        startScreenAnimator.release();
+        stopArrowBlink();
         characterController.release();
     }
 }

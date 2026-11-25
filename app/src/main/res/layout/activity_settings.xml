@@ -10,15 +10,14 @@
     android:background="@drawable/pixel_bg"
     tools:context=".SettingsActivity">
 
-    <TextView
+    <com.example.englisheatleak.OutlineTextView
         android:id="@+id/tvSettingsTitle"
-        android:fontFamily="@font/press_start_2p"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/settings_title"
         android:textColor="@color/px_text"
-        android:textSize="20sp"
+        android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,17 +47,15 @@
                 android:background="@drawable/pixel_panel"
                 android:layout_marginBottom="16dp">
 
-                <TextView
-                    android:fontFamily="@font/press_start_2p"
+                <com.example.englisheatleak.OutlineTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Appearance"
                     android:textColor="@color/px_text"
-                    android:textSize="12sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:fontFamily="@font/tagbamonothai"
+                <com.example.englisheatleak.OutlineTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -73,37 +70,40 @@
                     android:layout_marginTop="12dp"
                     android:orientation="vertical">
 
-                    <RadioButton
+                    <com.example.englisheatleak.OutlineRadioButton
                         android:id="@+id/radioThemeSystem"
-                        android:fontFamily="@font/tagbamonothai"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="System default"
                         android:textColor="@color/px_text"
                         android:textSize="22sp"
                         android:button="@drawable/pixel_radio"
+                        app:buttonTint="@null"
+                        app:useMaterialThemeColors="false"
                         android:paddingStart="12dp" />
 
-                    <RadioButton
+                    <com.example.englisheatleak.OutlineRadioButton
                         android:id="@+id/radioThemeLight"
-                        android:fontFamily="@font/tagbamonothai"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Light mode"
                         android:textColor="@color/px_text"
                         android:textSize="22sp"
                         android:button="@drawable/pixel_radio"
+                        app:buttonTint="@null"
+                        app:useMaterialThemeColors="false"
                         android:paddingStart="12dp" />
 
-                    <RadioButton
+                    <com.example.englisheatleak.OutlineRadioButton
                         android:id="@+id/radioThemeDark"
-                        android:fontFamily="@font/tagbamonothai"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Dark mode"
                         android:textColor="@color/px_text"
                         android:textSize="22sp"
                         android:button="@drawable/pixel_radio"
+                        app:buttonTint="@null"
+                        app:useMaterialThemeColors="false"
                         android:paddingStart="12dp" />
 
                 </RadioGroup>
@@ -118,8 +118,7 @@
                 android:background="@drawable/pixel_panel"
                 android:layout_marginBottom="16dp">
 
-                <TextView
-                    android:fontFamily="@font/tagbamonothai"
+                <com.example.englisheatleak.OutlineTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_current_stat"
@@ -127,15 +126,14 @@
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <com.example.englisheatleak.OutlineTextView
                     android:id="@+id/tvSettingsHighScore"
-                    android:fontFamily="@font/press_start_2p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="คะแนนสูงสุด: 0 🏆"
+                    android:text="คะแนนสูงสุด: 0"
                     android:textColor="@color/px_score"
-                    android:textSize="12sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -155,17 +153,15 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:fontFamily="@font/press_start_2p"
+                    <com.example.englisheatleak.OutlineTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_sound_title"
                         android:textColor="@color/px_text"
-                        android:textSize="12sp"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:fontFamily="@font/tagbamonothai"
+                    <com.example.englisheatleak.OutlineTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
@@ -181,7 +177,9 @@
                     android:checked="true"
                     app:track="@drawable/pixel_switch_track"
                     android:thumb="@drawable/pixel_switch_thumb"
-                    app:showText="false" />
+                    app:showText="false"
+                    app:thumbTint="@null"
+                    app:trackTint="@null" />
             </LinearLayout>
 
             <!-- Reset High Score -->
@@ -193,17 +191,15 @@
                 android:background="@drawable/pixel_panel"
                 android:layout_marginBottom="16dp">
 
-                <TextView
-                    android:fontFamily="@font/press_start_2p"
+                <com.example.englisheatleak.OutlineTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_reset_title"
                     android:textColor="@color/px_red"
-                    android:textSize="12sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:fontFamily="@font/tagbamonothai"
+                <com.example.englisheatleak.OutlineTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
@@ -211,14 +207,14 @@
                     android:textColor="@color/px_dim"
                     android:textSize="20sp" />
 
-                <Button
+                <com.example.englisheatleak.OutlineButton
                     android:id="@+id/btnResetHighScoreSettings"
-                    android:fontFamily="@font/tagbamonothai"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="12dp"
                     android:text="@string/btn_reset_high_score"
-                    android:backgroundTint="@color/px_red"
+                    android:background="@drawable/pixel_btn_red"
+                    app:backgroundTint="@null"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -232,17 +228,15 @@
                 android:padding="16dp"
                 android:background="@drawable/pixel_panel">
 
-                <TextView
-                    android:fontFamily="@font/press_start_2p"
+                <com.example.englisheatleak.OutlineTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_about_title"
                     android:textColor="@color/px_text"
-                    android:textSize="12sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:fontFamily="@font/tagbamonothai"
+                <com.example.englisheatleak.OutlineTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -255,13 +249,13 @@
     </ScrollView>
 
     <!-- Back Button -->
-    <Button
+    <com.example.englisheatleak.OutlineButton
         android:id="@+id/btnBackToMain"
-        android:fontFamily="@font/tagbamonothai"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:text="@string/btn_back_to_main"
-        android:backgroundTint="@color/px_green"
+        android:background="@drawable/pixel_btn_green"
+        app:backgroundTint="@null"
         android:textColor="#FFFFFF"
         android:textSize="26sp"
         android:textStyle="bold"

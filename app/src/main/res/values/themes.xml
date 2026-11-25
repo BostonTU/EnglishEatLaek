@@ -12,9 +12,10 @@
         <item name="android:navigationBarColor">@color/px_ink</item>
         <item name="android:windowLightStatusBar">false</item>
 
-        <item name="android:fontFamily">monospace</item>
+        <item name="android:fontFamily">@font/pixel_mix</item>
         <item name="android:textViewStyle">@style/Pixel.Text</item>
         <item name="materialButtonStyle">@style/Pixel.Button</item>
+        <item name="radioButtonStyle">@style/Pixel.Radio</item>
         <item name="alertDialogTheme">@style/Pixel.Dialog</item>
     </style>
 
@@ -23,6 +24,7 @@
 
     <style name="Pixel.Text"
         parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/pixel_mix</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -35,14 +37,14 @@
         <item name="android:insetBottom">0dp</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:fontFamily">monospace</item>
+        <item name="android:fontFamily">@font/pixel_mix</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <!-- กล่องยืนยัน: กรอบ pixel ฟอนต์พิกเซล ปุ่มเหลี่ยม -->
     <style name="Pixel.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="android:windowBackground">@drawable/pixel_panel</item>
-        <item name="android:fontFamily">@font/tagbamonothai</item>
+        <item name="android:fontFamily">@font/pixel_mix</item>
         <item name="android:textColorPrimary">@color/px_text</item>
         <item name="android:textColorSecondary">@color/px_dim</item>
         <item name="buttonBarPositiveButtonStyle">@style/Pixel.DialogButton</item>
@@ -51,10 +53,14 @@
 
     <style name="Pixel.DialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="cornerRadius">0dp</item>
-        <item name="android:fontFamily">@font/tagbamonothai</item>
+        <item name="android:fontFamily">@font/pixel_mix</item>
         <item name="android:textColor">@color/px_text</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Pixel.Radio" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="android:fontFamily">@font/pixel_mix</item>
     </style>
 
 </resources>

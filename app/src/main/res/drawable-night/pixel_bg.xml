@@ -491,4 +491,9 @@
     <!-- แสงโคมไฟส่องพื้นถนนตรงที่ตัวละครยืน -->
     <item android:gravity="bottom|center_horizontal" android:bottom="150dp" android:width="280dp" android:height="64dp"><shape android:shape="oval"><solid android:color="#10FFCD75"/></shape></item>
     <item android:gravity="bottom|center_horizontal" android:bottom="158dp" android:width="190dp" android:height="44dp"><shape android:shape="oval"><solid android:color="#14FFCD75"/></shape></item>
+
+    <!-- แสงเงาทั้งฉาก: แสงอ่อนด้านบน เงาอ่อนด้านล่าง -->
+    <item android:gravity="top" android:height="300dp"><shape><gradient android:angle="270" android:startColor="#18FFFFFF" android:endColor="#00FFFFFF"/></shape></item>
+    <item android:gravity="bottom" android:height="220dp"><shape><gradient android:angle="90" android:startColor="#59000000" android:endColor="#00000000"/></shape></item>
+
 </layer-list>

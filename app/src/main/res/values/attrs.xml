@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="OutlineText">
+        <attr name="outlineEnabled" format="boolean" />
+        <attr name="outlineColor" format="color" />
+        <attr name="outlineMaxWidth" format="dimension" />
+        <attr name="pixelShadowColor" format="color" />
+        <attr name="pixelShadowDx" format="dimension" />
+        <attr name="pixelShadowDy" format="dimension" />
+    </declare-styleable>
+</resources>
