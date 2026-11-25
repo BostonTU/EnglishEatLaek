@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settingsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@drawable/pixel_bg"
+    tools:context=".SettingsActivity">
+
+    <com.example.englisheatleak.OutlineTextView
+        android:id="@+id/tvSettingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/settings_title"
+        android:textColor="@color/px_text"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tvSettingsTitle"
+        app:layout_constraintBottom_toTopOf="@id/btnBackToMain"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Theme Settings -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/pixel_panel"
+                android:layout_marginBottom="16dp">
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_appearance"
+                    android:textColor="@color/px_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/settings_choose_theme"
+                    android:textColor="@color/px_dim"
+                    android:textSize="20sp" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <com.example.englisheatleak.OutlineRadioButton
+                        android:id="@+id/radioThemeSystem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="System default"
+                        android:textColor="@color/px_text"
+                        android:textSize="22sp"
+                        android:button="@drawable/pixel_radio"
+                        app:buttonTint="@null"
+                        app:useMaterialThemeColors="false"
+                        android:paddingStart="12dp" />
+
+                    <com.example.englisheatleak.OutlineRadioButton
+                        android:id="@+id/radioThemeLight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Light mode"
+                        android:textColor="@color/px_text"
+                        android:textSize="22sp"
+                        android:button="@drawable/pixel_radio"
+                        app:buttonTint="@null"
+                        app:useMaterialThemeColors="false"
+                        android:paddingStart="12dp" />
+
+                    <com.example.englisheatleak.OutlineRadioButton
+                        android:id="@+id/radioThemeDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dark mode"
+                        android:textColor="@color/px_text"
+                        android:textSize="22sp"
+                        android:button="@drawable/pixel_radio"
+                        app:buttonTint="@null"
+                        app:useMaterialThemeColors="false"
+                        android:paddingStart="12dp" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/pixel_panel"
+                android:layout_marginBottom="16dp">
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_language_title"
+                    android:textColor="@color/px_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/settings_language_desc"
+                    android:textColor="@color/px_dim"
+                    android:textSize="20sp" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupLanguage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+                    <com.example.englisheatleak.OutlineRadioButton
+                        android:id="@+id/radioLanguageThai"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/language_thai"
+                        android:textColor="@color/px_text"
+                        android:textSize="22sp"
+                        android:button="@drawable/pixel_radio"
+                        android:paddingStart="12dp" />
+                    <com.example.englisheatleak.OutlineRadioButton
+                        android:id="@+id/radioLanguageEnglish"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/language_english"
+                        android:textColor="@color/px_text"
+                        android:textSize="22sp"
+                        android:button="@drawable/pixel_radio"
+                        android:paddingStart="12dp" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <!-- High Score -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/pixel_panel"
+                android:layout_marginBottom="16dp">
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_current_stat"
+                    android:textColor="@color/px_dim"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:id="@+id/tvSettingsHighScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="คะแนนสูงสุด: 0"
+                    android:textColor="@color/px_score"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Sound Settings -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/pixel_panel"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.example.englisheatleak.OutlineTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_sound_title"
+                        android:textColor="@color/px_text"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <com.example.englisheatleak.OutlineTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/settings_sound_desc"
+                        android:textColor="@color/px_dim"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchSound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    app:track="@drawable/pixel_switch_track"
+                    android:thumb="@drawable/pixel_switch_thumb"
+                    app:showText="false"
+                    app:thumbTint="@null"
+                    app:trackTint="@null" />
+            </LinearLayout>
+
+            <!-- Reset High Score -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/pixel_panel"
+                android:layout_marginBottom="16dp">
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_reset_title"
+                    android:textColor="@color/px_red"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/settings_reset_desc"
+                    android:textColor="@color/px_dim"
+                    android:textSize="20sp" />
+
+                <com.example.englisheatleak.OutlineButton
+                    android:id="@+id/btnResetHighScoreSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/btn_reset_high_score"
+                    android:background="@drawable/pixel_btn_red"
+                    app:backgroundTint="@null"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- About -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/pixel_panel">
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_about_title"
+                    android:textColor="@color/px_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/settings_about_desc"
+                    android:textColor="@color/px_dim"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Back Button -->
+    <com.example.englisheatleak.OutlineButton
+        android:id="@+id/btnBackToMain"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:text="@string/btn_back_to_main"
+        android:background="@drawable/pixel_btn_green"
+        app:backgroundTint="@null"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

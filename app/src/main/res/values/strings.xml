@@ -1,13 +1,22 @@
 <resources>
     <string name="app_name">English Eat Laek</string>
+    <string name="title_english">English</string>
+    <string name="title_eat_laek">Eat Laek</string>
     <string name="app_subtitle">เกมทายคำศัพท์ภาษาอังกฤษ กินเพื่อเติบโต! 🍔</string>
 
     <!-- Score & Status -->
     <string name="score_format">Words: %1$d</string>
+    <string name="score_initial">Words: 0</string>
     <string name="combo_format">Combo: %1$d 🔥</string>
+    <string name="combo_initial">Combo: 0 🔥</string>
     <string name="best_score_format">Best: %1$d 🏆</string>
+    <string name="best_initial">Best: 0 🏆</string>
+    <string name="start_high_score_initial">คะแนนสูงสุด: 0 🏆</string>
     <string name="start_best_score_format">ตอบถูกมากสุด: %1$d คำ 🏆</string>
     <string name="level_format">LEVEL: %1$s</string>
+    <string name="timer_initial">10s</string>
+    <string name="question_instruction">เลือกคำแปลภาษาไทย</string>
+    <string name="game_character_content_description">ตัวละครในเกม</string>
 
     <!-- Buttons -->
     <string name="btn_start_game">เริ่มเล่นเกม (Start)</string>
@@ -17,6 +26,8 @@
     <string name="btn_main_menu">หน้าหลัก</string>
     <string name="btn_resume">เล่นเกมต่อ</string>
     <string name="btn_back_to_main">กลับหน้าหลัก</string>
+    <string name="choice_1">ตัวเลือก 1</string>
+    <string name="choice_2">ตัวเลือก 2</string>
 
     <!-- Character Status -->
     <string name="fat_status_0">ร่างตัวละคร: ปกติ (Fat Lv.0)</string>
@@ -29,6 +40,9 @@
     <string name="paused_subtitle">แตะปุ่มเพื่อเล่นเกมต่อจากเวลาที่เหลืออยู่</string>
     <string name="game_over_title">GAME OVER!</string>
     <string name="times_up_title">TIME\'S UP!</string>
+    <string name="seconds_format">%1$ds</string>
+    <string name="correct_answer_format">คำตอบที่ถูกคือ: %1$s</string>
+    <string name="final_stats_format">คำที่ตอบถูก: %1$d | สูงสุด: %2$d</string>
 
     <!-- Settings -->
     <string name="settings_title">ตั้งค่าเกม</string>
@@ -39,6 +53,12 @@
     <string name="settings_reset_desc">ลบสถิติ High Score ทั้งหมดออกจากเครื่อง</string>
     <string name="settings_about_title">เกี่ยวกับเกม English Eat Laek</string>
     <string name="settings_about_desc">English Eat Laek v1.0\nเกมทายคำศัพท์ภาษาอังกฤษ ตอบถูกตัวละครจะกินและตัวใหญ่ขึ้น!</string>
+    <string name="settings_appearance">รูปแบบหน้าจอ</string>
+    <string name="settings_choose_theme">เลือกธีมที่ต้องการ</string>
+    <string name="settings_language_title">ภาษาของเมนู</string>
+    <string name="settings_language_desc">โจทย์ยังคงเป็นคำศัพท์อังกฤษ ให้เลือกคำแปลภาษาไทย</string>
+    <string name="language_thai">ภาษาไทย</string>
+    <string name="language_english">English</string>
 
     <!-- Dialogs & Confirmation -->
     <string name="confirm_reset_title">ยืนยันการลบสถิติ</string>
