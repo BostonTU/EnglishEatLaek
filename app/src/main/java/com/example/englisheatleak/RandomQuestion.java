@@ -47,6 +47,27 @@ public class RandomQuestion {
         return generateQuestionByDifficulty(null);
     }
 
+    /** Rebuilds a question for the saved vocabulary item after rotation. */
+    public Question generateQuestionForWordId(int wordId) {
+        Vocabulary target = VocabularyDatabase.getWordById(wordId);
+        if (target == null) return generateQuestion();
+
+        List<String> choices = new ArrayList<>();
+        String correctAnswer = target.getThaiMeaning();
+        choices.add(correctAnswer);
+        List<Vocabulary> wrongChoicePool = new ArrayList<>(allVocabList);
+        wrongChoicePool.remove(target);
+        Collections.shuffle(wrongChoicePool, random);
+        for (Vocabulary vocabulary : wrongChoicePool) {
+            if (!choices.contains(vocabulary.getThaiMeaning())) {
+                choices.add(vocabulary.getThaiMeaning());
+            }
+            if (choices.size() == 2) break;
+        }
+        Collections.shuffle(choices, random);
+        return new Question(target, choices, choices.indexOf(correctAnswer));
+    }
+
     public Question generateQuestionByFatLevel(int fatLevel) {
         String difficulty;
         if (fatLevel <= 1) {

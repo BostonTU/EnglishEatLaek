@@ -28,6 +28,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    @Override
+    protected void attachBaseContext(android.content.Context newBase) {
+        super.attachBaseContext(LanguageManager.wrap(newBase));
+    }
+
     private static final long QUESTION_TIME_MS = 10000; // 10 วินาทีต่อคำถาม
 
     private static final long WARNING_MS = 3000; // เตือนเมื่อเหลือ 3 วินาที
@@ -87,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private int highScore = 0;
     private boolean isProcessingAnswer = false;
     private long lastBackPressedTime = 0;
+    private String appliedLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         dataManager = DataManager.getInstance(this);
         soundManager = SoundManager.getInstance(this);
+        appliedLanguage = LanguageManager.getLanguage(this);
 
         ImageView characterView = findViewById(R.id.characterView);
         characterController = new CharacterController(characterView, findViewById(R.id.shadowView));
@@ -144,10 +151,7 @@ public class MainActivity extends AppCompatActivity {
         loadHighScore();
 
         characterController.setInputStateListener(enabled -> {
-            boolean canClick = enabled && currentState == GameState.PLAYING && !isProcessingAnswer;
-            for (Button btn : choiceButtons) {
-                btn.setEnabled(canClick);
-            }
+            updateChoiceButtons(enabled);
         });
 
         for (int i = 0; i < choiceButtons.length; i++) {
@@ -195,7 +199,11 @@ public class MainActivity extends AppCompatActivity {
 
         setupBackNavigation();
         setupMenuArrow();
-        showStartScreen();
+        if (dataManager.hasSavedGameState()) {
+            restorePausedGame();
+        } else {
+            showStartScreen();
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets sb = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -209,9 +217,13 @@ public class MainActivity extends AppCompatActivity {
                     sb.right + pad, sb.bottom + pad);
 
             // หน้าแรก: พื้นหลังเต็มจอ เนื้อหาหลบแถบระบบ
+            boolean landscape = getResources().getConfiguration().orientation
+                    == android.content.res.Configuration.ORIENTATION_LANDSCAPE;
+            int startHorizontal = (int) ((landscape ? 16 : 24) * d);
+            int startVertical = (int) ((landscape ? 8 : 48) * d);
             findViewById(R.id.layoutStartScreen).setPadding(
-                    sb.left + (int) (24 * d), sb.top + (int) (48 * d),
-                    sb.right + (int) (24 * d), sb.bottom + (int) (48 * d));
+                    sb.left + startHorizontal, sb.top + startVertical,
+                    sb.right + startHorizontal, sb.bottom + startVertical);
 
             // pause overlay: พื้นดำเต็มจอ เนื้อหาหลบแถบระบบ
             findViewById(R.id.layoutPauseOverlay).setPadding(
@@ -341,6 +353,48 @@ public class MainActivity extends AppCompatActivity {
         loadHighScore();
     }
 
+    /** Restores a paused game after rotation or Activity recreation. */
+    private void restorePausedGame() {
+        stopTimer();
+        currentState = GameState.PAUSED;
+        isProcessingAnswer = false;
+        remainingTimeMs = dataManager.getSavedTimeRemainingMs();
+        answerChecker.restoreState(
+                dataManager.getSavedScore(), dataManager.getSavedStreak());
+        characterController.restoreState(dataManager.getSavedFatLevel());
+        currentQuestion = randomQuestion.generateQuestionForWordId(
+                dataManager.getSavedWordId());
+
+        layoutStartScreen.setVisibility(View.GONE);
+        layoutGameOver.setVisibility(View.GONE);
+        updateScoreUI();
+        tvDifficulty.setText(getString(R.string.level_format,
+                currentQuestion.getDifficulty().toUpperCase()));
+        tvWord.setText(currentQuestion.getTargetVocab().getEnglishWord());
+        List<String> choices = currentQuestion.getChoices();
+        for (int i = 0; i < choiceButtons.length; i++) {
+            choiceButtons[i].setText(choices.get(i));
+        }
+        updateFatStatusUI(characterController.getFatLevel());
+        layoutPauseOverlay.setVisibility(View.VISIBLE);
+        layoutPauseOverlay.bringToFront();
+        btnResumeGame.setEnabled(true);
+        btnResumeGame.setClickable(true);
+        btnPauseQuitMenu.setEnabled(true);
+        btnPauseQuitMenu.setClickable(true);
+        stopArrowBlink();
+    }
+
+    private void updateChoiceButtons(boolean characterCanAnswer) {
+        boolean canClick = characterCanAnswer
+                && currentState == GameState.PLAYING
+                && !isProcessingAnswer;
+        for (Button btn : choiceButtons) {
+            btn.setEnabled(canClick);
+            btn.setClickable(canClick);
+        }
+    }
+
     private void startGame() {
         dataManager.clearSavedGameState();
         stopArrowBlink();
@@ -361,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
                 int progress = (int) ((millisUntilFinished * 100) / QUESTION_TIME_MS);
                 progressBarTimer.setProgress(progress);
                 long seconds = (millisUntilFinished / 1000) + 1;
-                tvTimer.setText(seconds + "s");
+        tvTimer.setText(getString(R.string.seconds_format, seconds));
                 updateTimerWarning(millisUntilFinished);
             }
 
@@ -369,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 remainingTimeMs = 0;
                 progressBarTimer.setProgress(0);
-                tvTimer.setText("0s");
+        tvTimer.setText(getString(R.string.seconds_format, 0));
                 setTimerWarning(false);
                 handleTimeout();
             }
@@ -428,6 +482,11 @@ public class MainActivity extends AppCompatActivity {
             currentState = GameState.PAUSED;
             saveCurrentGameState();
             fadeInView(layoutPauseOverlay);
+            layoutPauseOverlay.bringToFront();
+            btnResumeGame.setEnabled(true);
+            btnResumeGame.setClickable(true);
+            btnPauseQuitMenu.setEnabled(true);
+            btnPauseQuitMenu.setClickable(true);
         }
     }
 
@@ -447,6 +506,7 @@ public class MainActivity extends AppCompatActivity {
             layoutPauseOverlay.setVisibility(View.GONE);
             currentState = GameState.PLAYING;
             isProcessingAnswer = false;
+            updateChoiceButtons(characterController.canAnswer());
             startTimer(remainingTimeMs > 0 ? remainingTimeMs : QUESTION_TIME_MS);
         }
     }
@@ -511,7 +571,8 @@ public class MainActivity extends AppCompatActivity {
             loadNextQuestion();
         } else {
             soundManager.playWrongSound();
-            triggerGameOver("คำตอบที่ถูกคือ: " + currentQuestion.getChoices().get(currentQuestion.getCorrectIndex()), getString(R.string.game_over_title));
+            triggerGameOver(getString(R.string.correct_answer_format,
+                    currentQuestion.getChoices().get(currentQuestion.getCorrectIndex())), getString(R.string.game_over_title));
         }
     }
 
@@ -522,7 +583,8 @@ public class MainActivity extends AppCompatActivity {
         isProcessingAnswer = true;
         soundManager.playWrongSound();
         answerChecker.checkAnswer(currentQuestion, -1, 0);
-        triggerGameOver("คำตอบที่ถูกคือ: " + currentQuestion.getChoices().get(currentQuestion.getCorrectIndex()), getString(R.string.times_up_title));
+        triggerGameOver(getString(R.string.correct_answer_format,
+                currentQuestion.getChoices().get(currentQuestion.getCorrectIndex())), getString(R.string.times_up_title));
     }
 
     private void triggerGameOver(String reasonMessage, String title) {
@@ -541,8 +603,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvGameOverTitle.setText(title);
         tvGameOverReason.setText(reasonMessage);
-        String stats = "Words: " + score + " | Best: " + highScore;
-        tvFinalStats.setText(stats);
+        tvFinalStats.setText(getString(R.string.final_stats_format, score, highScore));
         fadeInView(layoutGameOver);
     }
 
@@ -575,12 +636,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        String currentLanguage = LanguageManager.getLanguage(this);
+        if (appliedLanguage != null && !appliedLanguage.equals(currentLanguage)) {
+            appliedLanguage = currentLanguage;
+            recreate();
+            return;
+        }
+        appliedLanguage = currentLanguage;
         loadHighScore();
         if (currentState == GameState.START_MENU) {
             startArrowBlink();
         }
         if (currentState == GameState.PAUSED) {
+            layoutStartScreen.setVisibility(View.GONE);
+            layoutGameOver.setVisibility(View.GONE);
             layoutPauseOverlay.setVisibility(View.VISIBLE);
+            layoutPauseOverlay.bringToFront();
+            btnResumeGame.setEnabled(true);
+            btnResumeGame.setClickable(true);
         }
     }
 

@@ -17,6 +17,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    @Override
+    protected void attachBaseContext(android.content.Context newBase) {
+        super.attachBaseContext(LanguageManager.wrap(newBase));
+    }
+
     private DataManager dataManager;
     private SoundManager soundManager;
 
@@ -25,6 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Button btnResetHighScoreSettings;
     private Button btnBackToMain;
     private RadioGroup radioGroupTheme;
+    private RadioGroup radioGroupLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +48,11 @@ public class SettingsActivity extends AppCompatActivity {
         btnResetHighScoreSettings = findViewById(R.id.btnResetHighScoreSettings);
         btnBackToMain = findViewById(R.id.btnBackToMain);
         radioGroupTheme = findViewById(R.id.radioGroupTheme);
+        radioGroupLanguage = findViewById(R.id.radioGroupLanguage);
 
         loadSettings();
         setupThemeSelector();
+        setupLanguageSelector();
 
         switchSound.setOnCheckedChangeListener((buttonView, isChecked) -> {
             dataManager.setSoundEnabled(isChecked);
@@ -129,6 +137,20 @@ public class SettingsActivity extends AppCompatActivity {
             if (!selectedTheme.equals(ThemeManager.getTheme(this))) {
                 soundManager.playButtonClickSound();
                 ThemeManager.setTheme(this, selectedTheme);
+            }
+        });
+    }
+
+    private void setupLanguageSelector() {
+        String language = LanguageManager.getLanguage(this);
+        radioGroupLanguage.check(LanguageManager.ENGLISH.equals(language)
+                ? R.id.radioLanguageEnglish : R.id.radioLanguageThai);
+        radioGroupLanguage.setOnCheckedChangeListener((group, checkedId) -> {
+            String selected = checkedId == R.id.radioLanguageEnglish
+                    ? LanguageManager.ENGLISH : LanguageManager.THAI;
+            if (!selected.equals(LanguageManager.getLanguage(this))) {
+                LanguageManager.setLanguage(this, selected);
+                recreate();
             }
         });
     }

@@ -491,6 +491,23 @@ public class CharacterController {
         return fatLevel;
     }
 
+    /** Restores the character size/state after a configuration change. */
+    public void restoreState(int restoredFatLevel) {
+        stopAnimation();
+        stopBreathing();
+        characterView.animate().cancel();
+        characterView.setTranslationX(0f);
+        characterView.setTranslationY(0f);
+        characterView.clearColorFilter();
+        fatLevel = Math.max(0, restoredFatLevel);
+        isDead = false;
+        isBusy = false;
+        applyScale(false);
+        playIdleOrFat();
+        startBreathingAfter(0);
+        notifyInput();
+    }
+
     public EffectPlayer getEffects() {
         return effects;
     }

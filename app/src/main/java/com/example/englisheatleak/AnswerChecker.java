@@ -19,6 +19,15 @@ public class AnswerChecker {
         this.lastEarnedPoints = 0;
     }
 
+    /** Restores the visible score state after an Activity recreation. */
+    public void restoreState(int restoredScore, int restoredStreak) {
+        score = Math.max(0, restoredScore);
+        streak = Math.max(0, restoredStreak);
+        correctCount = score;
+        totalAnswered = score;
+        lastEarnedPoints = 0;
+    }
+
     public boolean checkAnswer(RandomQuestion.Question question, int selectedIndex) {
         return checkAnswer(question, selectedIndex, 0);
     }
