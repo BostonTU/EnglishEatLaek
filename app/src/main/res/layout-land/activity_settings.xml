@@ -137,7 +137,9 @@
                     android:id="@+id/radioGroupLanguage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
                     <com.example.englisheatleak.OutlineRadioButton
                         android:id="@+id/radioLanguageThai"
                         android:layout_width="match_parent"
@@ -146,7 +148,10 @@
                         android:textColor="@color/px_text"
                         android:textSize="22sp"
                         android:button="@drawable/pixel_radio"
+                        app:buttonTint="@null"
+                        app:useMaterialThemeColors="false"
                         android:paddingStart="12dp" />
+
                     <com.example.englisheatleak.OutlineRadioButton
                         android:id="@+id/radioLanguageEnglish"
                         android:layout_width="match_parent"
@@ -155,6 +160,8 @@
                         android:textColor="@color/px_text"
                         android:textSize="22sp"
                         android:button="@drawable/pixel_radio"
+                        app:buttonTint="@null"
+                        app:useMaterialThemeColors="false"
                         android:paddingStart="12dp" />
                 </RadioGroup>
             </LinearLayout>

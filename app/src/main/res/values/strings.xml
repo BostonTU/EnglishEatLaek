@@ -2,7 +2,7 @@
     <string name="app_name">English Eat Laek</string>
     <string name="title_english">English</string>
     <string name="title_eat_laek">Eat Laek</string>
-    <string name="app_subtitle">เกมทายคำศัพท์ภาษาอังกฤษ กินเพื่อเติบโต! 🍔</string>
+    <string name="app_subtitle">เกมทายคำศัพท์ภาษาอังกฤษ กินให้แหลก! 🍔</string>
 
     <!-- Score & Status -->
     <string name="score_format">Words: %1$d</string>
