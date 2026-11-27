@@ -16,6 +16,12 @@
     <string name="timer_initial">10s</string>
     <string name="question_instruction">Choose the Thai meaning</string>
     <string name="game_character_content_description">Game character</string>
+    <string name="difficulty_title">SELECT DIFFICULTY</string>
+    <string name="difficulty_description">Choose your challenge\\nDifficulty can increase as your character grows</string>
+    <string name="difficulty_easy">EASY</string>
+    <string name="difficulty_medium">MEDIUM</string>
+    <string name="difficulty_hard">HARD</string>
+    <string name="difficulty_back">BACK TO MENU</string>
     <string name="btn_start_game">Start game</string>
     <string name="btn_settings">Settings</string>
     <string name="btn_reset_high_score">Reset high score</string>

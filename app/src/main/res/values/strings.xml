@@ -4,7 +4,6 @@
     <string name="title_eat_laek">Eat Laek</string>
     <string name="app_subtitle">เกมทายคำศัพท์ภาษาอังกฤษ กินให้แหลก! 🍔</string>
 
-    <!-- Score & Status -->
     <string name="score_format">Words: %1$d</string>
     <string name="score_initial">Words: 0</string>
     <string name="combo_format">Combo: %1$d 🔥</string>
@@ -18,7 +17,13 @@
     <string name="question_instruction">เลือกคำแปลภาษาไทย</string>
     <string name="game_character_content_description">ตัวละครในเกม</string>
 
-    <!-- Buttons -->
+    <string name="difficulty_title">เลือกระดับความยาก</string>
+    <string name="difficulty_description">เลือกความท้าทายที่ต้องการ\nตัวละครจะเพิ่มระดับความยากตาม Fat Level</string>
+    <string name="difficulty_easy">ง่าย (EASY)</string>
+    <string name="difficulty_medium">ปานกลาง (MEDIUM)</string>
+    <string name="difficulty_hard">ยาก (HARD)</string>
+    <string name="difficulty_back">กลับหน้าหลัก</string>
+
     <string name="btn_start_game">เริ่มเล่นเกม (Start)</string>
     <string name="btn_settings">ตั้งค่า</string>
     <string name="btn_reset_high_score">ลบสถิติคะแนนสูงสุด</string>
@@ -29,13 +34,11 @@
     <string name="choice_1">ตัวเลือก 1</string>
     <string name="choice_2">ตัวเลือก 2</string>
 
-    <!-- Character Status -->
     <string name="fat_status_0">ร่างตัวละคร: ปกติ (Fat Lv.0)</string>
     <string name="fat_status_low">ร่างตัวละคร: เริ่มอ้วนขึ้น (Fat Lv.%1$d)</string>
     <string name="fat_status_mid">ร่างตัวละคร: ตัวโตสมบูรณ์! (Fat Lv.%1$d)</string>
     <string name="fat_status_high">ร่างตัวละคร: อ้วนขั้นสุดยอด!! (Fat Lv.%1$d)</string>
 
-    <!-- Pause & Game Over -->
     <string name="paused_title">พักเกมอยู่ (PAUSED) ⏸️</string>
     <string name="paused_subtitle">แตะปุ่มเพื่อเล่นเกมต่อจากเวลาที่เหลืออยู่</string>
     <string name="game_over_title">GAME OVER!</string>
@@ -44,7 +47,6 @@
     <string name="correct_answer_format">คำตอบที่ถูกคือ: %1$s</string>
     <string name="final_stats_format">คำที่ตอบถูก: %1$d | สูงสุด: %2$d</string>
 
-    <!-- Settings -->
     <string name="settings_title">ตั้งค่าเกม</string>
     <string name="settings_current_stat">สถิติปัจจุบัน</string>
     <string name="settings_sound_title">เสียงเกม (Sound Effects)</string>
@@ -60,7 +62,6 @@
     <string name="language_thai">ภาษาไทย</string>
     <string name="language_english">English</string>
 
-    <!-- Dialogs & Confirmation -->
     <string name="confirm_reset_title">ยืนยันการลบสถิติ</string>
     <string name="confirm_reset_message">คุณต้องการลบสถิติคะแนนสูงสุดทั้งหมดหรือไม่?</string>
     <string name="confirm_yes">ลบสถิติ</string>

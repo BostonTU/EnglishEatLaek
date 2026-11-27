@@ -332,7 +332,7 @@
                     android:insetBottom="0dp"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="0dp"
-            android:text="@string/btn_play_again"
+                    android:text="@string/btn_play_again"
                     android:background="@drawable/pixel_btn_green"
                     app:backgroundTint="@null"
                     android:textColor="#FFFFFF"
@@ -355,7 +355,7 @@
                     android:insetBottom="0dp"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="0dp"
-            android:text="@string/btn_main_menu"
+                    android:text="@string/btn_main_menu"
                     android:background="@drawable/pixel_btn_gray"
                     app:backgroundTint="@null"
                     android:textColor="#FFFFFF"
@@ -663,6 +663,113 @@
                     android:autoSizeMaxTextSize="30sp" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+
+    <!-- Difficulty Selection Screen -->
+    <LinearLayout
+        android:id="@+id/layoutDifficultyScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp"
+        android:background="@drawable/pixel_bg"
+        android:visibility="gone">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/pixel_panel"
+                    android:padding="24dp">
+
+                    <com.example.englisheatleak.OutlineTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/difficulty_title"
+                        android:textColor="@color/px_text"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:paddingBottom="8dp" />
+
+                    <com.example.englisheatleak.OutlineTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/difficulty_description"
+                        android:textColor="@color/px_dim"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:paddingBottom="20dp" />
+
+                    <com.example.englisheatleak.OutlineButton
+                        android:id="@+id/btnDifficultyEasy"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/pixel_menu_row"
+                        android:text="@string/difficulty_easy"
+                        android:textColor="@color/px_green"
+                        android:textAllCaps="false"
+                        android:textSize="22sp"
+                        app:backgroundTint="@null"
+                        app:strokeWidth="0dp" />
+
+                    <com.example.englisheatleak.OutlineButton
+                        android:id="@+id/btnDifficultyMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/pixel_menu_row"
+                        android:text="@string/difficulty_medium"
+                        android:textColor="@color/px_yellow"
+                        android:textAllCaps="false"
+                        android:textSize="22sp"
+                        app:backgroundTint="@null"
+                        app:strokeWidth="0dp" />
+
+                    <com.example.englisheatleak.OutlineButton
+                        android:id="@+id/btnDifficultyHard"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginBottom="18dp"
+                        android:background="@drawable/pixel_menu_row"
+                        android:text="@string/difficulty_hard"
+                        android:textColor="@color/px_red_text"
+                        android:textAllCaps="false"
+                        android:textSize="22sp"
+                        app:backgroundTint="@null"
+                        app:strokeWidth="0dp" />
+
+                    <com.example.englisheatleak.OutlineButton
+                        android:id="@+id/btnDifficultyBack"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/pixel_menu_row"
+                        android:text="@string/difficulty_back"
+                        android:textColor="@color/px_text"
+                        android:textAllCaps="false"
+                        android:textSize="18sp"
+                        app:backgroundTint="@null"
+                        app:strokeWidth="0dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
 </FrameLayout>

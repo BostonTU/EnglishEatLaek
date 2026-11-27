@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private long lastWarnSecond = -1;
     private enum GameState {
         START_MENU,
+        SELECT_DIFFICULTY,
         PLAYING,
         PAUSED,
         GAME_OVER
@@ -69,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
     // Start Screen Views
     private LinearLayout layoutStartScreen;
+    private LinearLayout layoutDifficultyScreen;
+    private Button btnDifficultyEasy;
+    private Button btnDifficultyMedium;
+    private Button btnDifficultyHard;
+    private Button btnDifficultyBack;
+    private String selectedDifficulty = "Easy";
     private TextView tvStartHighScore;
     private Button btnStartGame;
     private Button btnSettings;
@@ -126,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Start Screen Views
         layoutStartScreen = findViewById(R.id.layoutStartScreen);
+        layoutDifficultyScreen = findViewById(R.id.layoutDifficultyScreen);
+        btnDifficultyEasy = findViewById(R.id.btnDifficultyEasy);
+        btnDifficultyMedium = findViewById(R.id.btnDifficultyMedium);
+        btnDifficultyHard = findViewById(R.id.btnDifficultyHard);
+        btnDifficultyBack = findViewById(R.id.btnDifficultyBack);
         tvStartHighScore = findViewById(R.id.tvStartHighScore);
         btnStartGame = findViewById(R.id.btnStartGame);
         btnSettings = findViewById(R.id.btnSettings);
@@ -164,7 +176,24 @@ public class MainActivity extends AppCompatActivity {
 
         btnStartGame.setOnClickListener(v -> {
             soundManager.playButtonClickSound();
-            startGame();
+            showDifficultyScreen();
+        });
+
+        btnDifficultyEasy.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            startGame("Easy");
+        });
+        btnDifficultyMedium.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            startGame("Medium");
+        });
+        btnDifficultyHard.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            startGame("Hard");
+        });
+        btnDifficultyBack.setOnClickListener(v -> {
+            soundManager.playButtonClickSound();
+            showStartScreen();
         });
 
         btnSettings.setOnClickListener(v -> {
@@ -224,6 +253,9 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.layoutStartScreen).setPadding(
                     sb.left + startHorizontal, sb.top + startVertical,
                     sb.right + startHorizontal, sb.bottom + startVertical);
+            findViewById(R.id.layoutDifficultyScreen).setPadding(
+                    sb.left + startHorizontal, sb.top + startVertical,
+                    sb.right + startHorizontal, sb.bottom + startVertical);
 
             // pause overlay: พื้นดำเต็มจอ เนื้อหาหลบแถบระบบ
             findViewById(R.id.layoutPauseOverlay).setPadding(
@@ -251,7 +283,9 @@ public class MainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (currentState == GameState.START_MENU) {
+                if (currentState == GameState.SELECT_DIFFICULTY) {
+                    showStartScreen();
+                } else if (currentState == GameState.START_MENU) {
                     if (System.currentTimeMillis() - lastBackPressedTime < 2000) {
                         finish();
                     } else {
@@ -339,12 +373,24 @@ public class MainActivity extends AppCompatActivity {
                 .setDuration(90).start();
     }
 
+    private void showDifficultyScreen() {
+        stopTimer();
+        currentState = GameState.SELECT_DIFFICULTY;
+        layoutStartScreen.setVisibility(View.GONE);
+        layoutPauseOverlay.setVisibility(View.GONE);
+        layoutGameOver.setVisibility(View.GONE);
+        layoutDifficultyScreen.setVisibility(View.VISIBLE);
+        layoutDifficultyScreen.bringToFront();
+        stopArrowBlink();
+    }
+
     private void showStartScreen() {
         stopTimer();
         currentState = GameState.START_MENU;
         isProcessingAnswer = false;
         dataManager.clearSavedGameState();
         fadeInView(layoutStartScreen);
+        layoutDifficultyScreen.setVisibility(View.GONE);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
         imgMenuArrow.animate().cancel();
@@ -366,6 +412,7 @@ public class MainActivity extends AppCompatActivity {
                 dataManager.getSavedWordId());
 
         layoutStartScreen.setVisibility(View.GONE);
+        layoutDifficultyScreen.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
         updateScoreUI();
         tvDifficulty.setText(getString(R.string.level_format,
@@ -395,10 +442,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void startGame() {
+    private void startGame(String difficulty) {
+        selectedDifficulty = difficulty;
         dataManager.clearSavedGameState();
         stopArrowBlink();
         layoutStartScreen.setVisibility(View.GONE);
+        layoutDifficultyScreen.setVisibility(View.GONE);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
         restartGame();
@@ -415,7 +464,7 @@ public class MainActivity extends AppCompatActivity {
                 int progress = (int) ((millisUntilFinished * 100) / QUESTION_TIME_MS);
                 progressBarTimer.setProgress(progress);
                 long seconds = (millisUntilFinished / 1000) + 1;
-        tvTimer.setText(getString(R.string.seconds_format, seconds));
+                tvTimer.setText(getString(R.string.seconds_format, seconds));
                 updateTimerWarning(millisUntilFinished);
             }
 
@@ -423,7 +472,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 remainingTimeMs = 0;
                 progressBarTimer.setProgress(0);
-        tvTimer.setText(getString(R.string.seconds_format, 0));
+                tvTimer.setText(getString(R.string.seconds_format, 0));
                 setTimerWarning(false);
                 handleTimeout();
             }
@@ -513,7 +562,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadNextQuestion() {
         int fatLevel = characterController.getFatLevel();
-        currentQuestion = randomQuestion.generateQuestionByFatLevel(fatLevel);
+        String fatDifficulty = fatLevel <= 1 ? "Easy" : (fatLevel <= 4 ? "Medium" : "Hard");
+        String questionDifficulty = getDifficultyRank(fatDifficulty) > getDifficultyRank(selectedDifficulty)
+                ? fatDifficulty : selectedDifficulty;
+        currentQuestion = randomQuestion.generateQuestionByDifficulty(questionDifficulty);
 
         tvDifficulty.setText(getString(R.string.level_format, currentQuestion.getDifficulty().toUpperCase()));
         tvWord.setText(currentQuestion.getTargetVocab().getEnglishWord());
@@ -533,6 +585,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         startTimer(QUESTION_TIME_MS);
+    }
+
+    private int getDifficultyRank(String difficulty) {
+        if ("Hard".equalsIgnoreCase(difficulty)) return 3;
+        if ("Medium".equalsIgnoreCase(difficulty)) return 2;
+        return 1;
     }
 
     private void updateFatStatusUI(int fatLevel) {
@@ -612,6 +670,7 @@ public class MainActivity extends AppCompatActivity {
         isProcessingAnswer = false;
         dataManager.clearSavedGameState();
         layoutStartScreen.setVisibility(View.GONE);
+        layoutDifficultyScreen.setVisibility(View.GONE);
         layoutPauseOverlay.setVisibility(View.GONE);
         layoutGameOver.setVisibility(View.GONE);
         answerChecker.reset();
@@ -649,6 +708,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (currentState == GameState.PAUSED) {
             layoutStartScreen.setVisibility(View.GONE);
+            layoutDifficultyScreen.setVisibility(View.GONE);
             layoutGameOver.setVisibility(View.GONE);
             layoutPauseOverlay.setVisibility(View.VISIBLE);
             layoutPauseOverlay.bringToFront();
