@@ -676,4 +676,128 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
+    <!-- Difficulty Selection Screen -->
+    <LinearLayout
+        android:id="@+id/layoutDifficultyScreen"
+        android:elevation="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp"
+        android:background="@drawable/pixel_bg"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/pixel_panel"
+                    android:padding="24dp">
+
+                    <com.example.englisheatleak.OutlineTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/difficulty_title"
+                        android:textColor="@color/px_text"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:paddingBottom="8dp" />
+
+                    <com.example.englisheatleak.OutlineTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/difficulty_description"
+                        android:textColor="@color/px_dim"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:paddingBottom="20dp" />
+
+                    <com.example.englisheatleak.OutlineButton
+                        android:id="@+id/btnDifficultyEasy"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="@drawable/pixel_menu_row"
+                        android:text="@string/difficulty_easy"
+                        android:textColor="@color/px_green"
+                        android:textAllCaps="false"
+                        android:textSize="22sp"
+                        app:backgroundTint="@null"
+                        app:strokeWidth="0dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginVertical="4dp"
+                        android:background="@color/px_ink" />
+
+                    <com.example.englisheatleak.OutlineButton
+                        android:id="@+id/btnDifficultyMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="@drawable/pixel_menu_row"
+                        android:text="@string/difficulty_medium"
+                        android:textColor="@color/px_yellow"
+                        android:textAllCaps="false"
+                        android:textSize="22sp"
+                        app:backgroundTint="@null"
+                        app:strokeWidth="0dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginVertical="4dp"
+                        android:background="@color/px_ink" />
+
+                    <com.example.englisheatleak.OutlineButton
+                        android:id="@+id/btnDifficultyHard"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="@drawable/pixel_menu_row"
+                        android:text="@string/difficulty_hard"
+                        android:textColor="@color/px_red_text"
+                        android:textAllCaps="false"
+                        android:textSize="22sp"
+                        app:backgroundTint="@null"
+                        app:strokeWidth="0dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginVertical="4dp"
+                        android:background="@color/px_ink" />
+
+                    <com.example.englisheatleak.OutlineButton
+                        android:id="@+id/btnDifficultyBack"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/pixel_menu_row"
+                        android:text="@string/difficulty_back"
+                        android:textColor="@color/px_text"
+                        android:textAllCaps="false"
+                        android:textSize="18sp"
+                        app:backgroundTint="@null"
+                        app:strokeWidth="0dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
 </FrameLayout>
