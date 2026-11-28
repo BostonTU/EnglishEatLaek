@@ -721,7 +721,6 @@
                         android:id="@+id/btnDifficultyEasy"
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
-                        android:layout_marginBottom="10dp"
                         android:background="@drawable/pixel_menu_row"
                         android:text="@string/difficulty_easy"
                         android:textColor="@color/px_green"
@@ -730,11 +729,16 @@
                         app:backgroundTint="@null"
                         app:strokeWidth="0dp" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginVertical="4dp"
+                        android:background="@color/px_ink" />
+
                     <com.example.englisheatleak.OutlineButton
                         android:id="@+id/btnDifficultyMedium"
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
-                        android:layout_marginBottom="10dp"
                         android:background="@drawable/pixel_menu_row"
                         android:text="@string/difficulty_medium"
                         android:textColor="@color/px_yellow"
@@ -743,11 +747,16 @@
                         app:backgroundTint="@null"
                         app:strokeWidth="0dp" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginVertical="4dp"
+                        android:background="@color/px_ink" />
+
                     <com.example.englisheatleak.OutlineButton
                         android:id="@+id/btnDifficultyHard"
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
-                        android:layout_marginBottom="18dp"
                         android:background="@drawable/pixel_menu_row"
                         android:text="@string/difficulty_hard"
                         android:textColor="@color/px_red_text"
@@ -755,6 +764,12 @@
                         android:textSize="22sp"
                         app:backgroundTint="@null"
                         app:strokeWidth="0dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginVertical="4dp"
+                        android:background="@color/px_ink" />
 
                     <com.example.englisheatleak.OutlineButton
                         android:id="@+id/btnDifficultyBack"
