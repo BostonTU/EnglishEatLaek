@@ -184,24 +184,27 @@
         <ImageView
             android:id="@+id/characterView"
             android:layout_width="0dp"
-            android:layout_height="72dp"
-            android:layout_marginTop="2dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription="@string/game_character_content_description"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             app:layout_constraintTop_toBottomOf="@id/layoutWordCard"
+            app:layout_constraintBottom_toTopOf="@id/tvFatStatus"
+            app:layout_constraintVertical_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/landscapeDivider"/>
+            app:layout_constraintEnd_toStartOf="@id/landscapeDivider"
+            android:layout_marginEnd="8dp" />
 
         <!-- Character Status -->
         <com.example.englisheatleak.OutlineTextView
             android:id="@+id/tvFatStatus"
             android:background="@drawable/pixel_panel"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="2dp"
+            android:paddingVertical="4dp"
             android:layout_width="0dp"
-            android:layout_height="26dp"
-            android:layout_marginTop="2dp"
+            android:layout_height="32dp"
             android:layout_marginBottom="4dp"
             android:text="@string/fat_status_0"
             android:textColor="@color/px_text"
@@ -211,7 +214,6 @@
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="12sp"
             android:autoSizeMaxTextSize="24sp"
-            app:layout_constraintTop_toBottomOf="@id/characterView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/landscapeDivider"
@@ -248,10 +250,10 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:maxLines="2"
-                android:textSize="26sp"
+                android:textSize="34sp"
                 android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="14sp"
-                android:autoSizeMaxTextSize="26sp" />
+                android:autoSizeMinTextSize="18sp"
+                android:autoSizeMaxTextSize="34sp" />
 
             <com.example.englisheatleak.OutlineButton
                 android:id="@+id/btnChoice2"
@@ -271,15 +273,16 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:maxLines="2"
-                android:textSize="26sp"
+                android:textSize="34sp"
                 android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="14sp"
-                android:autoSizeMaxTextSize="26sp" />
+                android:autoSizeMinTextSize="18sp"
+                android:autoSizeMaxTextSize="34sp" />
         </LinearLayout>
 
         <!-- Game Over -->
         <LinearLayout
             android:id="@+id/layoutGameOver"
+            android:elevation="10dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -287,8 +290,9 @@
             android:padding="20dp"
             android:background="@drawable/pixel_panel"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/layoutWordCard"
-            app:layout_constraintBottom_toTopOf="@id/layoutChoices"
+            app:layout_constraintWidth_max="420dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -480,48 +484,58 @@
         android:focusable="true">
 
         <!-- กรอบชื่อเกม (สไตล์เดียวกับกรอบเมนู) -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/pixel_panel"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="8dp">
+            android:layout_height="wrap_content">
 
-            <com.example.englisheatleak.OutlineTextView
-                android:id="@+id/tvAppTitle"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/title_english"
-                android:textColor="@color/px_text"
+                android:orientation="vertical"
                 android:gravity="center"
-                android:maxLines="1"
-                android:paddingHorizontal="4dp"
-                android:textSize="24sp"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="16sp"
-                android:autoSizeMaxTextSize="30sp"
-                app:pixelShadowColor="@color/px_outline"
-                app:pixelShadowDx="3dp"
-                app:pixelShadowDy="3dp" />
+                android:background="@drawable/pixel_panel"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="8dp"
+                app:layout_constraintWidth_max="380dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <com.example.englisheatleak.OutlineTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_eat_laek"
-                android:textColor="@color/px_score"
-                android:gravity="center"
-                android:maxLines="1"
-                android:paddingHorizontal="4dp"
-                android:textSize="34sp"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="24sp"
-                android:autoSizeMaxTextSize="48sp"
-                app:pixelShadowColor="@color/px_outline"
-                app:pixelShadowDx="4dp"
-                app:pixelShadowDy="4dp" />
-        </LinearLayout>
+                <com.example.englisheatleak.OutlineTextView
+                    android:id="@+id/tvAppTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_english"
+                    android:textColor="@color/px_text"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingHorizontal="4dp"
+                    android:textSize="24sp"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="16sp"
+                    android:autoSizeMaxTextSize="30sp"
+                    app:pixelShadowColor="@color/px_outline"
+                    app:pixelShadowDx="3dp"
+                    app:pixelShadowDy="3dp" />
+
+                <com.example.englisheatleak.OutlineTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_eat_laek"
+                    android:textColor="@color/px_score"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingHorizontal="4dp"
+                    android:textSize="34sp"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="24sp"
+                    android:autoSizeMaxTextSize="48sp"
+                    app:pixelShadowColor="@color/px_outline"
+                    app:pixelShadowDx="4dp"
+                    app:pixelShadowDy="4dp" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.example.englisheatleak.OutlineTextView
             android:id="@+id/tvAppSubtitle"
@@ -696,20 +710,23 @@
             android:fillViewport="true"
             android:overScrollMode="never">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
                 android:padding="8dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:background="@drawable/pixel_panel"
-                    android:padding="24dp">
+                    android:padding="24dp"
+                    app:layout_constraintWidth_max="360dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
 
                     <com.example.englisheatleak.OutlineTextView
                         android:layout_width="match_parent"
@@ -796,7 +813,7 @@
                         app:backgroundTint="@null"
                         app:strokeWidth="0dp" />
                 </LinearLayout>
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </LinearLayout>
 

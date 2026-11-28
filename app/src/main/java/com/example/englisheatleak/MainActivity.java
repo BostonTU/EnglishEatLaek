@@ -662,6 +662,7 @@ public class MainActivity extends AppCompatActivity {
         tvGameOverTitle.setText(title);
         tvGameOverReason.setText(reasonMessage);
         tvFinalStats.setText(getString(R.string.final_stats_format, score, highScore));
+        layoutGameOver.bringToFront();
         fadeInView(layoutGameOver);
     }
 

@@ -27,6 +27,7 @@ public class CharacterController {
     private static final int FRAME_COUNT = 7;
 
     // ขนาดตัวละครเพิ่มตามระดับความอ้วน (ใช้ร่วมกับภาพ Fat ไม่ได้ใช้แทน)
+    private static final float BASE_SCALE = 0.80f;          // ขนาดเริ่มต้นเล็กลง 20%
     private static final float SCALE_PER_LEVEL = 0.07f;
     private static final int MAX_SCALE_LEVEL = 7;          // สูงสุด 1.49 เท่า
     private static final int SCALE_ANIM_MS = 350;
@@ -113,8 +114,8 @@ public class CharacterController {
 
         characterView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         characterView.setAdjustViewBounds(true);
-        characterView.setScaleX(1.0f);
-        characterView.setScaleY(1.0f);
+        characterView.setScaleX(BASE_SCALE);
+        characterView.setScaleY(BASE_SCALE);
         characterView.addOnLayoutChangeListener(
                 (v, l, t, r, b, ol, ot, or, ob) -> updatePivot());
         characterView.post(this::updatePivot);
@@ -122,7 +123,7 @@ public class CharacterController {
             shadowView.addOnLayoutChangeListener(
                     (v, l, t, r, b, ol, ot, or, ob) -> updatePivot());
         }
-        setShadow(1.0f, 1.0f, 0);
+        setShadow(BASE_SCALE, 1.0f, 0);
 
         playIdleOrFat();
         startBreathingAfter(0);
@@ -131,7 +132,7 @@ public class CharacterController {
     // ---------------------------------------------------------------- หายใจ
 
     private float baseScale() {
-        return 1.0f + SCALE_PER_LEVEL * Math.min(fatLevel, MAX_SCALE_LEVEL);
+        return BASE_SCALE * (1.0f + SCALE_PER_LEVEL * Math.min(fatLevel, MAX_SCALE_LEVEL));
     }
 
     private void stopBreathing() {
@@ -214,7 +215,7 @@ public class CharacterController {
     }
 
     private void applyScale(boolean animate) {
-        final float scale = 1.0f + SCALE_PER_LEVEL * Math.min(fatLevel, MAX_SCALE_LEVEL);
+        final float scale = BASE_SCALE * (1.0f + SCALE_PER_LEVEL * Math.min(fatLevel, MAX_SCALE_LEVEL));
         setShadow(scale * shadowFactor(), 1.0f, animate ? 110 + SCALE_ANIM_MS : 0);
         if (animate) {
             // บีบตัวนิดหนึ่ง (squash) แล้วเด้งขยายเกินเป้าเล็กน้อยก่อนนิ่ง (stretch)
@@ -381,9 +382,9 @@ public class CharacterController {
         final Runnable startSkinny = new Runnable() {
             @Override
             public void run() {
-                characterView.setScaleX(1.0f);
-                characterView.setScaleY(1.0f);
-                setShadow(0.9f, 1.0f, 0);   // ผอม: เงาแคบลง
+                characterView.setScaleX(BASE_SCALE);
+                characterView.setScaleY(BASE_SCALE);
+                setShadow(BASE_SCALE * 0.9f, 1.0f, 0);   // ผอม: เงาแคบลง
                 playFrames(skinnyFrames, SKINNY_DELAY, false, new Runnable() {
                     @Override
                     public void run() {
@@ -413,9 +414,9 @@ public class CharacterController {
             for (int i = 0; i <= top; i++) {
                 deflate[i] = fatFrames[top - i][0];     // อ้วนสุด -> อ้วนระดับ 1
             }
-            characterView.animate().scaleX(1.0f).scaleY(1.0f)
+            characterView.animate().scaleX(BASE_SCALE).scaleY(BASE_SCALE)
                     .setDuration(DEFLATE_DELAY * (top + 1)).start();
-            setShadow(1.0f, 1.0f, DEFLATE_DELAY * (top + 1));
+            setShadow(BASE_SCALE, 1.0f, DEFLATE_DELAY * (top + 1));
             playFrames(deflate, DEFLATE_DELAY, false, startSkinny);
         }
     }
